@@ -1,0 +1,5 @@
+FROM ubuntu
+# exec form
+ENTRYPOINT [ "top", "-b" ]
+CMD [ "-c" ]
+
