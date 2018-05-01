@@ -17,7 +17,7 @@ winpty docker run -it --rm --entrypoint //bin//bash <NOMEIMMAGINE>
 winpty docker run -it --rm --entrypoint //bin//bash <NOMEIMMAGINE> -c "ls -l"
 ```
 
-**per  override CMD e annullare i suoi  argomenti:**
+**per il solo override di CMD e annullare i suoi  argomenti:**
 ```
-docker run -it --rm <imagename> ""
+docker run -it --rm <NOMEIMMAGINE> ""
 ```
