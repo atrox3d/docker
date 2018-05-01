@@ -1,4 +1,5 @@
-# Docker Compose in 12 Minutes
+# Docker Compose in 12 Minutes [^1]
 
-https://youtu.be/Qw9zlE3t8Ko
+
+[^1]:https://youtu.be/Qw9zlE3t8Ko
 
