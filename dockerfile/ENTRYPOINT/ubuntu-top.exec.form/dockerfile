@@ -1,0 +1,9 @@
+FROM ubuntu
+# exec form
+#ENTRYPOINT [ "top", "-b" ]
+ENTRYPOINT [ "top" ]
+
+# to override CMD with no arguments:
+# docker run -it --rm <imagename> ""
+CMD [ "-b", "-c" ]
+
