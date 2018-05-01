@@ -5,7 +5,7 @@
 **per eseguire override di ENTRYPOINT e  CMD:
  usare il flag --entrypoint, specificando eventuali argomenti DOPO il nome dell'immagine**
  
- ad esempio:
+ad esempio:
  
 ```
 docker run -it --rm --entrypoint /bin/bash <NOMEIMMAGINE>
