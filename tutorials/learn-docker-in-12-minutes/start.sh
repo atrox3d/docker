@@ -1,4 +1,6 @@
 #!/bin/bash
-docker run -p80:80 -v $(readlink -e src):/var/www/html/ hellophp
-#docker run -p80:80 hellophp
+WEBPORT=8001
+IMAGENAME=hellophp
+CONTAINERNAME=${IMAGENAME}
+docker run -p${WEBPORT}:80 --rm --name hellophp -v $(readlink -e src):/var/www/html/ ${IMAGENAME}
 
