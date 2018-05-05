@@ -19,4 +19,10 @@ source: https://youtu.be/YFl2mCHdv24
     wimpty docker run -it -v //c/Users/username/path/to/datavolume:/logs ubuntu //bin//bash
     wimpty docker run -it -v /${PWD}:/logs ubuntu //bin//bash
     ```
+	
+	per errore:
+    ```
+    C:/Program Files/Docker Toolbox/docker.exe: Error response from daemon : invalid mode: \Program Files\Git\logs.	
+    ```
+	
 ref: https://github.com/docker/toolbox/issues/607 
