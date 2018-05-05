@@ -31,7 +31,8 @@ ${_cmdline} && {
 	which docker-machine 2>&1 > /dev/null && {
 		echo "URL    : http://$(docker-machine ip):${HOSTPORT}"
 	} || {
-		echo linux
+		echo $IP=$(ip route get 8.8.8.8 | tr -s ' ' | cut -d' ' -f7)
+		echo "URL    : http://${IP}:${HOSTPORT}"
 	}
 
 } || {
