@@ -4,10 +4,10 @@
 source: https://youtu.be/YFl2mCHdv24
 
 # workarounds per Windows/Docker toolbox/GitBash
-- usare la sintassi :
-```
-wimpty docker ...
-```
+* usare la sintassi :
+    ```
+    wimpty docker ...
+    ```
 
 per errore:
 ```
