@@ -15,13 +15,13 @@ which winpty 2>&1 > /dev/null && {
 	WINPTY=""
 	MOUNT_PREFIX=""
 }
-_cmmdline="${WINPTY} docker run -d --rm -p${HOSTPORT}:80 -v ${MOUNT_PREFIX}$(readlink -e src):/var/www/html/ ${IMAGENAME}"
+_cmdline="${WINPTY} docker run -d --rm -p${HOSTPORT}:80 -v ${MOUNT_PREFIX}$(readlink -e src):/var/www/html/ ${IMAGENAME}"
 echo "[RUNNING] :"
 echo "-------------------------------------------------------------------------"
-echo "${_cmmdline}"
+echo "${_cmdline}"
 echo "-------------------------------------------------------------------------"
 
-${_cmmdline} && {
+${_cmdline} && {
 	echo "[SUCCESS]"
 	ID=$(docker ps -lq)
 	echo "stop   : docker stop $ID"
@@ -31,7 +31,8 @@ ${_cmmdline} && {
 	which docker-machine 2>&1 > /dev/null && {
 		echo "URL    : http://$(docker-machine ip):${HOSTPORT}"
 	}
+
 } || {
-	echo "[FAILURE ]with exit code $?"
+	echo "[FAILURE ] with exit code $?"
 }
 #docker run -p80:80 hellophp
