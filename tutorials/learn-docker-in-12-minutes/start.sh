@@ -30,6 +30,8 @@ ${_cmdline} && {
 	
 	which docker-machine 2>&1 > /dev/null && {
 		echo "URL    : http://$(docker-machine ip):${HOSTPORT}"
+	} || {
+		echo linux
 	}
 
 } || {
