@@ -21,7 +21,8 @@ echo "-------------------------------------------------------------------------"
 echo "${_cmdline}"
 echo "-------------------------------------------------------------------------"
 
-${_cmdline} && {
+if ${_cmdline} 
+then
 	echo "[SUCCESS]"
 	ID=$(docker ps -lq)
 	echo "stop   : docker stop $ID"
@@ -35,7 +36,7 @@ ${_cmdline} && {
 		echo "URL    : http://${IP}:${HOSTPORT}"
 	}
 
-} || {
+else
 	echo "[FAILURE ] with exit code $?"
-}
+fi
 #docker run -p80:80 hellophp
