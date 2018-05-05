@@ -1,5 +1,4 @@
 #!/bin/bash
-<<<<<<< HEAD
 IMAGENAME=hellophp
 CONTAINERNAME=${IMAGENAME}
 HOSTPORT=80
@@ -14,12 +13,6 @@ which winpty 2> /dev/null && {
 	WINPTY=""
 	MOUNT_PREFIX=""
 }
-=======
-WEBPORT=8001
-IMAGENAME=hellophp
-CONTAINERNAME=${IMAGENAME}
-docker run -p${WEBPORT}:80 --rm --name hellophp -v $(readlink -e src):/var/www/html/ ${IMAGENAME}
->>>>>>> 08597e7e5068d4ecb4b99794156a15aa05edb75f
 
-${WINPTY} docker run -d --rm -p${HOSTPORT}:80 -v ${MOUNT_PREFIX}$(readlink -e src):/var/www/html/ hellophp
+${WINPTY} docker run -d --rm -p${HOSTPORT}:80 -v ${MOUNT_PREFIX}$(readlink -e src):/var/www/html/ ${IMAGENAME}
 #docker run -p80:80 hellophp
