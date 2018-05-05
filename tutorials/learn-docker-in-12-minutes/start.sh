@@ -20,13 +20,17 @@ echo "[RUNNING] :"
 echo "-------------------------------------------------------------------------"
 echo "${_cmmdline}"
 echo "-------------------------------------------------------------------------"
-${_cmmdline}
-[ $? -eq 0 ] && {
+
+${_cmmdline} && {
 	echo "[SUCCESS]"
 	ID=$(docker ps -lq)
 	echo "stop   : docker stop $ID"
 	echo "attach : docker attach $ID"
 	echo "logs   : docker logs $ID"
+	
+	which docker-machine 2>&1 > /dev/null && {
+		echo "URL    : http://$(docker-machine ip):${HOSTPORT}"
+	}
 } || {
 	echo "[FAILURE ]with exit code $?"
 }
