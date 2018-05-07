@@ -1,9 +1,4 @@
 #!/bin/bash
-function log()
-{
-	echo "[$(basename $0)] ${@}"
-}
-
 log "check for build.properties..."
 [ -s build.properties ] && {
 	log "list build properties:"

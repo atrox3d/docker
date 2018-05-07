@@ -1,3 +1,2 @@
 #!/bin/bash
-
-. ../../helpers/build.sh "$@"
+. ../../../.helpers/build.sh "$@"

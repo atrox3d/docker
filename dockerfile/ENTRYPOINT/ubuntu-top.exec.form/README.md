@@ -1,5 +1,6 @@
 
 # ENTRYPOINT exec form
+ref: https://docs.docker.com/engine/reference/builder/#exec-form-entrypoint-example
 
 
 **per eseguire override di ENTRYPOINT e  CMD usare il flag ```--entrypoint```, specificando eventuali argomenti DOPO il nome dell'immagine**
