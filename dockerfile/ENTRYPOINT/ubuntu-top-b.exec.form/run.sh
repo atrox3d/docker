@@ -1,6 +1,5 @@
 #!/bin/bash
 . ../../helpers/setimagename.sh "$@"
-#IMAGENAME=ubuntutop-exec
 #IMAGENAME=ubuntutop-exec-b
 CONTAINERNAME=${IMAGENAME}
 which winpty 2> /dev/null && WINPTY=winpty || WINPTY=""
