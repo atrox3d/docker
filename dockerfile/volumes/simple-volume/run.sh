@@ -1,5 +1,5 @@
 #!/bin/bash
-. ../../configure-environment.sh || echo "ERROR configuring environment"
+. ../../../configure-environment.sh || echo "ERROR configuring environment"
 
 ${WINPTY} docker run --rm \
 -v ${MOUNT_PREFIX}${PWD}/logs:/logs ubuntu \
