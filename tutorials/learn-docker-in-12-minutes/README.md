@@ -7,7 +7,7 @@ source: https://youtu.be/YFl2mCHdv24
 
 * usare la sintassi :
     ```
-    wimpty docker ...
+    winpty docker ...
     ```
 
     per errore:
@@ -16,8 +16,8 @@ source: https://youtu.be/YFl2mCHdv24
     ```
 * prependere il path locale del volume con uno slash:
     ```
-    wimpty docker run -it -v //c/Users/username/path/to/datavolume:/logs ubuntu //bin//bash
-    wimpty docker run -it -v /${PWD}:/logs ubuntu //bin//bash
+    winpty docker run -it -v //c/Users/username/path/to/datavolume:/logs ubuntu //bin//bash
+    winpty docker run -it -v /${PWD}:/logs ubuntu //bin//bash
     ```
 	
 	per errore:
