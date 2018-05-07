@@ -1,8 +1,9 @@
 #!/bin/bash
-. ../../helpers/setimagename.sh "$@"
+. ../../../configure-environment.sh || echo "ERROR configuring environment"
+. "${DOCKER_HELPERS}"/setimagename.sh
 #IMAGENAME=ubuntutop-exec-b
 CONTAINERNAME=${IMAGENAME}
-which winpty 2> /dev/null && WINPTY=winpty || WINPTY=""
+#which winpty 2> /dev/null && WINPTY=winpty || WINPTY=""
 
 cat <<EOF
 # esecuzione con parametri CMD ed ENTRYPOINT da dockerfile

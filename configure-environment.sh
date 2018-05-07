@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# gli script di build eseguono il source di questo script di configurazione automatica
+# non è necessario chiamarlo direttamente
+
 BASE_PATH="$(cd $(dirname $BASH_SOURCE);pwd)"
 DOCKER_HELPERS="${BASE_PATH}/.helpers"
 
