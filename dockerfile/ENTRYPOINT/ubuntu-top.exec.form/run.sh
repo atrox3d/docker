@@ -1,6 +1,8 @@
 #!/bin/bash
-IMAGENAME=ubuntutop-exec
+. ../../helpers/setimagename.sh "$@"
+#IMAGENAME=ubuntutop-exec
 CONTAINERNAME=${IMAGENAME}
+
 which winpty 2> /dev/null && {
 	WINPTY=winpty
 	BASH=//bin//bash
@@ -21,3 +23,4 @@ ${WINPTY} docker run -it --rm --name ${CONTAINERNAME} --entrypoint ${BASH} ${IMA
 ${WINPTY} docker run -it --rm ${IMAGENAME} ""
 
 EOF
+
