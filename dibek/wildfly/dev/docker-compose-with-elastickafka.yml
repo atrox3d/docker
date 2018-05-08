@@ -1,0 +1,54 @@
+version: '3'
+
+
+services:
+  zookeeper:
+      image: wurstmeister/zookeeper:3.4.6
+      ports:
+         - 2181:2181
+      networks:
+        - docker-elk
+  kafka:
+      image: wurstmeister/kafka:0.10.1.1
+      environment:
+          KAFKA_ADVERTISED_HOST_NAME: http://localhost:9092
+          KAFKA_ADVERTISED_PORT: 9092
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+          KAFKA_CREATE_TOPICS: "pvrGrdMain.topic"
+      ports:
+         - 9092:9092
+      networks:
+        - docker-elk
+  elasticsearch:
+      image: elasticsearch:2.4.6
+      volumes:
+           - "./esdata:/usr/share/elasticsearch/data"
+      ports:
+            - 9200:9200
+            - 9300:9300
+      networks:
+        - docker-elk
+  wildfly:
+    image: 'wildfly-oracle-dev:latest'
+    ports:
+      - '8090:8080'
+      - '9990:9990'
+    volumes:
+      - ./wildfly_data:/opt/jboss/wildfly/standalone/deployments
+    environment:
+      - WILDFLY_USERNAME=prv_user
+      - WILDFLY_PASSWORD=pvr_password
+      - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=elasticsearch:9300
+      - SIGNING_KEY=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoZZtAWAIvTxffzgTIPSNFv7HLIm5C83iHqGSKqrApIavgeWm8+duabEnD9UZ3nyO5jgaojqvMi1XpUtlnd9kW8CyFLS2eplrawJ3eUS4cXyPQ3K7nenJN9MHkZwDwYBcN8yHcvwCQIfsFk5OFgtIUU66ur/D2iLLVpWtVV16xOI65/UuqmV3YtdBujx59Gwp5249j9wi0VxkQBqDbLZmzNls8DTGNDimzKKliDUp/a+ZKaDv4BKSn/dCsBPBo1rLdEMPEco0SwwAl71HR7l6siYVzuvwOQT4M5pXjdSS8CHEYCyBpRHC3Bde8PzosaUfM4NuN9vcbhp3RcTmFpRoWQIDAQAB
+
+    networks:
+      - docker-elk
+    depends_on:
+       - elasticsearch
+       - kafka
+
+volumes:
+   wildfly_data:
+     driver: local
+networks:
+  docker-elk:

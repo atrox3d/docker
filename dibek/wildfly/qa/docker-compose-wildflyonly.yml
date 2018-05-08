@@ -1,0 +1,27 @@
+version: '3'
+
+
+services:
+
+  wildfly:
+    image: 'wildfly-oracle:latest'
+    ports:
+      - '8090:8080'
+      - '9990:9990'
+    volumes:
+      - ./wildfly_data:/bitnami
+    environment:
+      - WILDFLY_USERNAME=prv_user
+      - WILDFLY_PASSWORD=pvr_password
+      - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=elasticsearch:9300
+      - SIGNING_KEY=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoZZtAWAIvTxffzgTIPSNFv7HLIm5C83iHqGSKqrApIavgeWm8+duabEnD9UZ3nyO5jgaojqvMi1XpUtlnd9kW8CyFLS2eplrawJ3eUS4cXyPQ3K7nenJN9MHkZwDwYBcN8yHcvwCQIfsFk5OFgtIUU66ur/D2iLLVpWtVV16xOI65/UuqmV3YtdBujx59Gwp5249j9wi0VxkQBqDbLZmzNls8DTGNDimzKKliDUp/a+ZKaDv4BKSn/dCsBPBo1rLdEMPEco0SwwAl71HR7l6siYVzuvwOQT4M5pXjdSS8CHEYCyBpRHC3Bde8PzosaUfM4NuN9vcbhp3RcTmFpRoWQIDAQAB
+
+    networks:
+      - docker-elk
+
+
+volumes:
+   wildfly_data:
+     driver: local
+networks:
+  docker-elk:
