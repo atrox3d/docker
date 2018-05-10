@@ -2,9 +2,9 @@
 SERVER=http://localhost:9200
 INDEX=megacorp
 TYPE=employee
-URL=${SERVER}/megacorp/employee
+ENDPOINT=${SERVER}/${INDEX}/${TYPE}
 
-curl -i -XPUT ${URL}/1 -d'{
+curl -i -XPUT ${ENDPOINT}/1 -d'{
     "first_name" : "John",
     "last_name" :  "Smith",
     "age" :        25,
@@ -12,7 +12,7 @@ curl -i -XPUT ${URL}/1 -d'{
     "interests": [ "sports", "music" ]
 }'
 
-curl -i -XPUT ${URL}/2 -d'{
+curl -i -XPUT ${ENDPOINT}/2 -d'{
    "first_name" :  "Jane",
     "last_name" :   "Smith",
     "age" :         32,
@@ -20,7 +20,7 @@ curl -i -XPUT ${URL}/2 -d'{
     "interests":  [ "music" ]
 }'
 
-curl -i -XPUT ${URL}/3 -d'{
+curl -i -XPUT ${ENDPOINT}/3 -d'{
     "first_name" :  "Douglas",
     "last_name" :   "Fir",
     "age" :         35,
