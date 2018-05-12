@@ -1,7 +1,7 @@
 #!/bin/bash
-. ../../../configure-environment.sh || echo "ERROR configuring environment"
-. "${DOCKER_HELPERS}"/setimagename.sh
-#IMAGENAME=ubuntutop-exec-b
+. .helpers/.setup.sh || echo "ERROR configuring environment"
+
+set_imagename $1
 CONTAINERNAME=${IMAGENAME}
 _BASH="$( [ "$WINPTY" = "" ] && echo /bin/bash || echo //bin//bash )"
 
