@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+    product-service:
+        extends:
+            file:    ./product/docker-compose.yml
+            service: product-service
+      
+    elasticsearch:
+        extends:
+            file:   ./elasticsearch/docker-compose.yml
+            #
+            # funziona anche questo
+            #
+            #file: ../../dibek/elasticsearch/docker-compose.yml
+
+            # "service is a required property"
+            service: elasticsearch
+
+    website:
+        extends:
+            file:    ./website/docker-compose.yml
+            service: website
