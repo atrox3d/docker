@@ -1,5 +1,5 @@
 #!/bin/bash
-. ../../../configure-environment.sh || echo "ERROR configuring environment"
+. .helpers/.setup.sh || echo "ERROR configuring environment"
 
 HOST_PATH=${PWD}/logs
 CONTAINER_PATH=/logs

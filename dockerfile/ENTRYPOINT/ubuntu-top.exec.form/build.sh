@@ -1,4 +1,5 @@
 #!/bin/bash
-. ../../../configure-environment.sh || echo "ERROR configuring environment"
-. "${DOCKER_HELPERS}"/build.sh "$@"
+. .helpers/.setup.sh || echo "ERROR configuring environment"
+set_imagename $1
+docker_build
 
