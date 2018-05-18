@@ -2,15 +2,18 @@ version: '2'
 
 services:
     mysql:
-        image: mysql
+        image: mysql:5.7
         
         environment:
             - MYSQL_ROOT_PASSWORD=p@ssw0rd
+            #- ENV MYSQL_VERSION=5.7
             
         #https://github.com/boot2docker/boot2docker/issues/1300
-        command: --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0 --log_bin=ON
+        #command: --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0 --log_bin=ON
+        command: --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0
+        #command: --explicit_defaults_for_timestamp
         
         volumes:
-            - "./var/lib/mysql:/var/lib/mysql"
+            - "./mysql:/var/lib/mysql"
         ports:
             - 3306:3306

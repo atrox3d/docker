@@ -1,13 +1,37 @@
 <?php
 
 error_reporting(0);
+error_reporting(E_ALL);
 
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'elasticsearchphpmysql_mysql_1');
+#define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASSWORD', 'girnar');
+#define('DB_PASSWORD', 'girnar');
+define('DB_PASSWORD', 'p@ssw0rd');
 define('DB_DATABASE', 'ecommerce');
 
-$con = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
+echo "<pre>";
+echo "DB_HOST    : ".DB_HOST."\n";
+echo "DB_USER    : ".DB_USER."\n";
+echo "DB_PASSWORD: ".DB_PASSWORD."\n";
+echo "</pre>";
+
+/*
+$mysqli = new mysqli(
+						DB_HOST, 
+						DB_USER, 
+						DB_PASSWORD, 
+						"database"
+					);
+
+$pdo = new PDO(
+				'mysql:host='.DB_HOST, 
+				DB_USER, 
+				DB_PASSWORD
+				);
+return;
+*/
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
 if (!$con) {
     die("Opps some thing went wrong");
 } else {

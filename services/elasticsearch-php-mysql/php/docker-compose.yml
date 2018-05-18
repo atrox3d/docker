@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+    php:
+        # mysql_connect deprecato da php 5
+        #image: php:apache
+        
+        # non supporta il mysql attuale
+        #image: athimel/apache2-php5-mysql
+        
+        build: .
+        volumes:
+            - ./html:/var/www/html
+        ports:
+            - 80:80
+        

@@ -1,4 +1,7 @@
 <?php
+
+phpinfo();
+
 include('lib/Settings.php');
 
 $q = isset($_GET['q']) ? $_GET['q'] : '';
