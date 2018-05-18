@@ -3,14 +3,22 @@
 error_reporting(0);
 error_reporting(E_ALL);
 
-define('DB_HOST', 'elasticsearchphpmysql_mysql_1');
 #define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
+#define('DB_HOST', 'elasticsearchphpmysql_mysql_1');
+define('DB_HOST', getenv( "DB_HOST" ));
+
+#define('DB_USER', 'root');
+define('DB_USER', getenv( "DB_USER" ));
+
 #define('DB_PASSWORD', 'girnar');
-define('DB_PASSWORD', 'p@ssw0rd');
-define('DB_DATABASE', 'ecommerce');
+#define('DB_PASSWORD', 'p@ssw0rd');
+define('DB_PASSWORD', getenv( "DB_PASSWORD" ));
+
+#define('DB_DATABASE', 'ecommerce');
+define('DB_DATABASE', getenv( "DB_DATABASE" ));
 
 echo "<pre>";
+#echo "APP_DBHOST   : ".APP_DBHOST."\n";
 echo "DB_HOST    : ".DB_HOST."\n";
 echo "DB_USER    : ".DB_USER."\n";
 echo "DB_PASSWORD: ".DB_PASSWORD."\n";
