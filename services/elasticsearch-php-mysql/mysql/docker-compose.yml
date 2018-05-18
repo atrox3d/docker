@@ -10,7 +10,8 @@ services:
             
         #https://github.com/boot2docker/boot2docker/issues/1300
         #command: --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0 --log_bin=ON
-        command: --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0
+        #command: --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0
+        command: --innodb-use-native-aio=0
         #command: --explicit_defaults_for_timestamp
         
         volumes:
