@@ -13,4 +13,9 @@ services:
             - ./html:/var/www/html
         ports:
             - 80:80
+        #environment:
+        #    DB_HOST: mysql
+        #    DB_USER: root
+        #    DB_PASSWORD: p@ssw0rdaaaaa
+        #    DB_DATABASE: default
         

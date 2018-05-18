@@ -22,10 +22,10 @@ services:
 
     php:
         environment:
-            DB_HOST: mysql
-            DB_USER: root
-            DB_PASSWORD: p@ssw0rd
-            DB_DATABASE: default
+            DB_HOST     : mysql
+            DB_USER     : root
+            DB_PASSWORD : p@ssw0rd
+            DB_DATABASE : default
         extends:
             file:    ./php/docker-compose.yml
             service: php
