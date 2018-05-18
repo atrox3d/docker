@@ -35,7 +35,7 @@ $con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
 if (!$con) {
     die("Opps some thing went wrong");
 } else {
-    mysql_select_db(DB_DATABASE, $con);
+    mysqli_select_db($con, DB_DATABASE);
 }
 
 /*
