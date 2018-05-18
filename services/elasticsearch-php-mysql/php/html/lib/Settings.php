@@ -14,6 +14,7 @@ echo "<pre>";
 echo "DB_HOST    : ".DB_HOST."\n";
 echo "DB_USER    : ".DB_USER."\n";
 echo "DB_PASSWORD: ".DB_PASSWORD."\n";
+echo "DB_DATABASE: ".DB_DATABASE."\n";
 echo "</pre>";
 
 /*
@@ -35,7 +36,7 @@ $con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
 if (!$con) {
     die("Opps some thing went wrong");
 } else {
-    mysqli_select_db($con, DB_DATABASE);
+    mysqli_select_db($con, DB_DATABASE) || die("no db ".DB_DATABASE);
 }
 
 /*
