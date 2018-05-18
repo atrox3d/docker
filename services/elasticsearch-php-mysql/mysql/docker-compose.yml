@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+    mysql:
+        image: mysql
+        
+        environment:
+            - MYSQL_ROOT_PASSWORD=p@ssw0rd
+            
+        #https://github.com/boot2docker/boot2docker/issues/1300
+        command: --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0 --log_bin=ON
+        
+        volumes:
+            - "./var/lib/mysql:/var/lib/mysql"
+        ports:
+            - 3306:3306

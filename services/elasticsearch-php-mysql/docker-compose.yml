@@ -1,10 +1,10 @@
 version: '2'
 
 services:
-    #product-service:
-    #    extends:
-    #        file:    ./product/docker-compose.yml
-    #        service: product-service
+    mysql:
+        extends:
+            file:    ./mysql/docker-compose.yml
+            service: mysql
       
     es:
         # funziona: crea correttamente la cartella in questa directory
@@ -13,7 +13,6 @@ services:
         extends:
             # "service is a required property"
             service: elasticsearch
-            
             file:   ../nested-services-v2/elasticsearch/docker-compose.yml
             #
             # funziona anche questo
