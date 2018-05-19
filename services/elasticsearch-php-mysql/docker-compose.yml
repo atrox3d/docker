@@ -6,18 +6,18 @@ services:
             file:    ./mysql/docker-compose.yml
             service: mysql
       
-    #es:
-    #    # funziona: crea correttamente la cartella in questa directory
-    #    volumes:
-    #         - "./es/esdata:/usr/share/elasticsearch/data"             
-    #    extends:
-    #        # "service is a required property"
-    #        service: elasticsearch
-    #        file:   ../nested-services-v2/elasticsearch/docker-compose.yml
-    #        #
-    #        # funziona anche questo
-    #        #
-    #        #file: ../../dibek/elasticsearch/docker-compose.yml
+    es:
+        # funziona: crea correttamente la cartella in questa directory
+        volumes:
+             - "./es/esdata:/usr/share/elasticsearch/data"             
+        extends:
+            # "service is a required property"
+            service: elasticsearch
+            file:   ../nested-services-v2/elasticsearch/docker-compose.yml
+            #
+            # funziona anche questo
+            #
+            #file: ../../dibek/elasticsearch/docker-compose.yml
 
 
     php:
@@ -25,7 +25,9 @@ services:
             DB_HOST     : mysql
             DB_USER     : root
             DB_PASSWORD : p@ssw0rd
-            DB_DATABASE : default
+            DB_DATABASE : ecommerce
+            
+            ES_HOST     : es
         extends:
             file:    ./php/docker-compose.yml
             service: php

@@ -1,6 +1,6 @@
 <?php
 
-phpinfo();
+#phpinfo();
 
 include('lib/Settings.php');
 
@@ -25,15 +25,17 @@ if (!empty($q)) {
     $result = esCurlCall('ecommerce', 'product', $queryString, 'GET', $jsonDoc);
     $result = json_decode($result);
     #echo'<pre>',print_r($result),'</pre>';
-    if ($result->hits->total > 0) {
-        $results = $result->hits->hits;
-    }
+	if( property_exists( $result, 'hits' )) {
+		if ($result->hits->total > 0) {
+			$results = $result->hits->hits;
+		}
+	}
     #echo'<pre>', print_r($results), '</pre>';
 }
 
 
 ?>
-</<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Search | ES</title>
@@ -77,8 +79,7 @@ if (!empty($q)) {
             </form>
             
             <?php if (isset($results)) { ?>
-                <?php foreach ($results as $r) {
-                    ?>
+                <?php foreach ($results as $r) {  ?>
                     <div class="products-list">    
                         <div class="product-left"><img src="<?php echo($r->_source->image) ?>" width="60" height="60"></div>
                         <dic class="product-right">
@@ -87,7 +88,11 @@ if (!empty($q)) {
                         </dic>
                     </div>     
                 <?php } ?>
-            <?php } ?>
+            <?php } else {?>
+				no results from ES
+			<?php } ?>
+			
+			
         </div>	
     </body>
     <script>

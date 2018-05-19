@@ -1,5 +1,6 @@
 <?php
 
+define ('DEBUG', true);
 error_reporting(0);
 error_reporting(E_ALL);
 
@@ -17,13 +18,16 @@ define('DB_PASSWORD', getenv( "DB_PASSWORD" ));
 #define('DB_DATABASE', 'ecommerce');
 define('DB_DATABASE', getenv( "DB_DATABASE" ));
 
-echo "<pre>";
-#echo "APP_DBHOST   : ".APP_DBHOST."\n";
-echo "DB_HOST    : ".DB_HOST."\n";
-echo "DB_USER    : ".DB_USER."\n";
-echo "DB_PASSWORD: ".DB_PASSWORD."\n";
-echo "DB_DATABASE: ".DB_DATABASE."\n";
-echo "</pre>";
+
+function dump_dbparams() {
+	echo "<pre>";
+	#echo "APP_DBHOST   : ".APP_DBHOST."\n";
+	echo "DB_HOST    : ".DB_HOST."\n";
+	echo "DB_USER    : ".DB_USER."\n";
+	echo "DB_PASSWORD: ".DB_PASSWORD."\n";
+	echo "DB_DATABASE: ".DB_DATABASE."\n";
+	echo "</pre>";
+}
 
 /*
 $mysqli = new mysqli(
@@ -42,9 +46,13 @@ return;
 */
 $con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
 if (!$con) {
+	dump_dbparams();
     die("Opps some thing went wrong");
 } else {
-    mysqli_select_db($con, DB_DATABASE) || die("no db ".DB_DATABASE);
+    if(!mysqli_select_db($con, DB_DATABASE) )	{
+		dump_dbparams();
+		die("no db ".DB_DATABASE);
+	}
 }
 
 /*
@@ -62,7 +70,7 @@ function getResult($query) {
     return $new_array;
 }
 
-define('ES_HOST', 'localhost');
+define('ES_HOST', getenv( "ES_HOST" ));
 define('ES_PORT', 9200);
 /*
  * get results from query 
@@ -85,7 +93,19 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $requeryType);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDoc);
     $response = curl_exec($ch);
-    return $response;
+	
+	#$decode = json_decode($response, true);
+	if( DEBUG ) {
+		if( !isset( json_decode($response, true)['hits'] )) {
+			echo "<pre>[esCurlCall] ERROR from ELASTIC SEARCH\n</pre>";
+			echo "<pre>[esCurlCall] ES_HOST=".ES_HOST.", ES_PORT=".ES_PORT."\n</pre>";
+			echo "<pre>[esCurlCall] url=$url\n</pre>";
+			echo "<pre>[esCurlCall] response=\n";
+				print_r( json_decode($response) );
+			echo "</pre>";
+		}
+	}
+		return $response;
 }
 
 function categoryListSelect($id_parent = 0, $space = '') {
