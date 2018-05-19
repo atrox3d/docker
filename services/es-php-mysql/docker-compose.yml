@@ -18,7 +18,9 @@ services:
             # funziona anche questo
             #
             #file: ../../dibek/elasticsearch/docker-compose.yml
-
+        ports:
+            - 9200:9200
+            - 9300:9300
 
     php:
         environment:
