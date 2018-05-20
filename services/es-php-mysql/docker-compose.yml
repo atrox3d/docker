@@ -18,6 +18,8 @@ services:
             #
             #file:   ../nested-services-v2/elasticsearch/docker-compose.yml
             #
+            #
+            #
             file:   ./es/docker-compose.yml
             #
             # funziona anche questo

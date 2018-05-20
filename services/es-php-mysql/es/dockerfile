@@ -1,10 +1,14 @@
 FROM elasticsearch:2.4.6
 
+#
+# la versione 2.4.6 non supporta l'endpoint _delete_by_query
+# supporta l'endpoint _query con action DELETE
+# è necessario installarlo
+#
 RUN /usr/share/elasticsearch/bin/plugin install delete-by-query
 
-#RUN docker-php-source extract \
-#	&& docker-php-ext-install mysqli pdo pdo_mysql \
-#	&& docker-php-source delete
+
+
 EXPOSE 9200
 EXPOSE 9300
 #ENTRYPOINT [ "apache2-foreground" ]
