@@ -1,0 +1,93 @@
+_HiStOrY_V2_
+show data
+;
+show databases;
+select database();
+show tables;
+select * from product;
+show columns;
+describe ecommerce;
+describe;
+describe product;
+select name from product
+;
+describe categories;
+describe category;
+select name from category;
+select name from product
+;
+select * from product where name like 'Silvertech%';
+describe product;
+select id_category from product where name like 'Silvertech%';
+select name from category;
+describe category;
+select name from category where id = 69;
+select * from category;
+select id_category, name  from product where name like 'Silvertech%';
+describe product;
+select name from category;
+select * from category;
+select * from category where name like '%cover%';
+describe products;
+describe product;
+update product set id_category=122 where name like 'Silvertech%';
+select id_category, name  from product where name like 'Silvertech%';
+SELECT p.*, c.name AS category_name  FROM product AS p
+        INNER JOIN category AS c ON c.id = p.id_category;
+SELECT p.*, c.name AS category_name  FROM product AS p         INNER JOIN category AS c ON c.id = p.id_category;
+SELECT p.name, c.name AS category_name  FROM product AS p         INNER JOIN category AS c ON c.id = p.id_category;
+describe product;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         INNER JOIN category AS c ON c.id = p.id_category;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where category_name=NULL;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where p.name="x";
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where p.name like"%cover%";
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name like"%cover%";
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name = null;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null  ;
+describe category;
+selec * from category;
+select * from category;
+quit
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null  ;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null and p.name like 'fresh';
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null and p.name like '%fresh%';
+select * from category;
+select * from category ;
+select * from category limit 10;
+select * from category where name like '%fresh%' limit 10;
+select * from category ;
+select * from category  where id_parent=0;
+select * from category  where id_parent!=0;
+select * from category  where id_parent=296;
+select * from category  where id_parent!=0;
+select * from category  where id_parent=0;
+select * from category where name like '%perf%' limit 10;
+select c.*, pc.name from category c inner join category pc where name like '%perf%' limit 10;
+select c.*, pc.name from category c inner join category pc where c.name like '%perf%' limit 10;
+select c.*, pc.name as parent_name from category c inner join category pc where c.name like '%perf%' limit 10;
+select c.*, pc.name as parent_name from category c inner join category pc where c.name like '%perfu%' limit 10;
+select c.*, pc.id as parent_id, pc.name as parent_name from category c inner join category pc where c.name like '%perfu%' limit 10;
+select c.*, pc.id as parent_id, pc.name as parent_name from category c left join category pc where c.name like '%perfu%' limit 10;
+select c.*, pc.id as parent_id, pc.name as parent_name from category c inner join category pc where c.name like '%perfu%' limit 10;
+select c.*, pc.id as parent_id, pc.name as parent_name from category c inner join category pc on c.id_parent=pc_id where c.name like '%perfu%' limit 10;
+select c.*, pc.id as parent_id, pc.name as parent_name from category c inner join category pc on c.id_parent=pc.id where c.name like '%perfu%' limit 10;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null and p.name like '%fresh%';
+update (SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null and p.name like '%fresh%') set id_category=109 ;
+update (SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null and p.name like '%fresh%') dest set dest.id_category=109 ;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null and p.name like '%fresh%';
+update product
+left join category
+on product.id_category = category.id
+set product.id_category = 109
+where category.name is null;
+update product left join category on product.id_category = category.id set product.id_category = 109 where category.name is null;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null and p.name like '%fresh%';
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null ;
+history
+;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category where c.name is null  ;
+SELECT p.name, p.id_category, c.name AS category_name  FROM product AS p         LEFT JOIN category AS c ON c.id = p.id_category ;
+dump
+;
+exit
