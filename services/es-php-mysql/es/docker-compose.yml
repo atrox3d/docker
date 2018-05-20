@@ -1,0 +1,16 @@
+version: '2'
+services:
+    elasticsearch:
+        #image: elasticsearch:2.4.6
+        build: .
+        image: es-delete-by-query
+        volumes:
+             - "./esdata:/usr/share/elasticsearch/data"
+             - "./dev:/mnt/dev"
+             - "./tutorial:/mnt/tutorial"
+        ports:
+            - 9200:9200
+            - 9300:9300
+        # prevale sul service name
+        #container_name: es-docker
+

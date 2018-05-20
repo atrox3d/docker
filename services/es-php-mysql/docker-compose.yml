@@ -13,7 +13,12 @@ services:
         extends:
             # "service is a required property"
             service: elasticsearch
-            file:   ../nested-services-v2/elasticsearch/docker-compose.yml
+            #
+            # questa immagine non ha il plugnin delete-by-query
+            #
+            #file:   ../nested-services-v2/elasticsearch/docker-compose.yml
+            #
+            file:   ./es/docker-compose.yml
             #
             # funziona anche questo
             #
