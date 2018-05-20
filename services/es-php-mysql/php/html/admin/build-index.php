@@ -6,7 +6,9 @@ switch ($indexing) {
     case 'category':
         $queryCat = "SELECT * FROM category";
         $categories = getResult($queryCat);
+		$result=array();
         foreach ($categories as $cat) {
+			/*
             $params = [
                 'id_parent' => $cat['id_parent'],
                 'name' => $cat['name'],
@@ -15,11 +17,17 @@ switch ($indexing) {
             $queryString = $cat['id'];
             $result = esCurlCall('ecommerce', 'category', $queryString, 'PUT', $jsonDoc);
             $result = json_decode($result);
+			*/
+			esCRUDcategory( "PUT", $cat['id'], $cat['id_parent'], $cat['name'], $result) || 
+				$errors[]= "error indexing category {$cat['name']}";
         }
-            debug($result, "\$result");
-        if ($result->_shards->successful == 1) {
-            echo "Category indexing successful";
-        }
+		
+        #debug($result, "\$result");
+		
+        #if ($result->_shards->successful == 1) {
+        #    echo "Category indexing successful";
+        #}
+		print_r($errors);
 
         break;
     case 'product':

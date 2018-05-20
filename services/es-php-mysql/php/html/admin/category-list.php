@@ -12,7 +12,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'del') {
                     )";
     */
     recursiveDelete($_GET['id']);
-    mysql_query($sql);
+    #mysqli_query($con, $sql);
     //header('location:category-list.php');
 }
 

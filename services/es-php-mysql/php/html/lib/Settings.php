@@ -111,6 +111,33 @@ function getResult($query) {
 }
 
 
+function esCRUDcategory($method, $id, $id_parent, $name, &$result) {
+	
+	switch($method) {
+		case "PUT" :
+			$params = [
+				'id_parent' => $id_parent,
+				'name' => $name,
+			];
+			$jsonDoc = json_encode($params);
+			#$result = esCurlCall('ecommerce', 'category', $id, 'PUT', $jsonDoc);
+			#$result=json_decode($result);
+		break;
+
+		case "DELETE" : 
+			#$result = esCurlCall('ecommerce', 'category', $id, 'DELETE' );
+			#$result=json_decode($result);
+			$jsonDoc='';
+		break;
+	}
+	
+	$result = esCurlCall('ecommerce', 'category', $id, $method, $jsonDoc );
+	$result=json_decode($result);
+	return ($result->_shards->successful == 1) ? true : false;
+
+}
+
+
 define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
 define('ES_PORT', 9200);
 /*
@@ -156,11 +183,18 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
 
 function categoryListSelect($id_parent = 0, $space = '') {
 	global $con;
-    $q = "SELECT * FROM category WHERE id_parent = '" . $id_parent . "' ";
-    $r = mysqli_query($con, $q) or die(mysql_error());
-	echo "COUNT";
+    #$q = "SELECT * FROM category WHERE id_parent = '" . $id_parent . "' ";
+    $q = "SELECT * FROM category WHERE id_parent = '$id_parent' ";
+    #$r = mysqli_query($con, $q) or die(mysql_error());
+    $r = mysqli_query($con, $q);
+	
+	if( !$r ) {
+		echo "<option >ERROR: ${mysqli_error($con)}</option>";
+		return false;
+	}
+	
     $count = mysqli_num_rows($r);
-	debug( $count, "\$count", true );
+	#debug( $count, "\$count", true );
 
     if ($id_parent == 0) {
         $space = '';
@@ -176,15 +210,26 @@ function categoryListSelect($id_parent = 0, $space = '') {
             categoryListSelect($cid, $space);
         }
     }
+	return true;
 }
 
 function recursiveDelete($id) {
-    $result=mysql_query("SELECT * FROM category WHERE id_parent='$id'");
-    if (mysql_num_rows($result)>0) {
-         while($current=mysql_fetch_array($result)) {
+	global $con;
+    $result=mysqli_query($con, "SELECT * FROM category WHERE id_parent='$id'");
+    if (mysqli_num_rows($result)>0) {
+         while($current=mysqli_fetch_array($result)) {
               recursiveDelete($current['id']);
          }
     }
-    mysql_query("DELETE FROM category WHERE id='$id'");
+    mysqli_query($con, "DELETE FROM category WHERE id='$id'");
+	
+	echo "updating ES...";
+	if( !esCRUDcategory("DELETE", $id, null, null, $result) ) {
+		echo "ERRORS:\n";
+		echo $result;
+	} else {
+		echo "OK";
+	}
+	
 }
 ?>

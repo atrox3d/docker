@@ -18,6 +18,9 @@ services:
             # funziona anche questo
             #
             #file: ../../dibek/elasticsearch/docker-compose.yml
+            
+        #command: /usr/share/elasticsearch/bin/plugin install delete-by-query
+        
         ports:
             - 9200:9200
             - 9300:9300
