@@ -19,22 +19,32 @@ define('DB_PASSWORD', getenv( "DB_PASSWORD" )); # docker-compose.yml
 define('DB_DATABASE', getenv( "DB_DATABASE" )); # docker-compose.yml
 
 
-function debug($var, $message="", $force=false, $echo=false) {
-	if( DEBUG or $force) {
-		#echo "debug";
+function debug($var, $message=null, $forcedebug=false, $echo=false) {
+	if( DEBUG or $forcedebug) {
+		#
+		# otteniamo caller function se esiste
+		# oppure main
+		#
 		$trace=debug_backtrace();
-		if( isset( $trace[1]['function'] ))
+		if( isset( $trace[1]['function'] )) {
 			$caller=$trace[1]['function'];
-		else
-			$caller="main";
-		echo "<pre>[DEBUG][".basename(__FILE__)."/$caller] $message: ";
-		if( $echo ) {
-			echo $var;
 		} else {
-			echo "\n";
-			var_dump($var);
+			$caller="main";
 		}
-		echo "</pre>";
+		echo "<pre>";
+		echo "[DEBUG]";
+		echo "[".basename(__FILE__)."/$caller]";
+		echo "[$message]: ";
+		
+		if( $var ) {
+			if( $echo ) {
+				echo $var;
+			} else {
+				#echo "\n";
+				var_dump($var);
+			}
+		}
+		echo "</pre>\n";
 	}
 }
 
@@ -126,7 +136,7 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
     $response = curl_exec($ch);
 	
 	#$decode = json_decode($response, true);
-	debug($url, "\$url", true, true);
+	debug($url, "\$url/$requeryType", true, true);
 	debug($jsonDoc, "\$jsonDoc", true);
 	debug($response, "\$response", true);
 	if( DEBUG ) {
@@ -145,10 +155,12 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
 }
 
 function categoryListSelect($id_parent = 0, $space = '') {
+	global $con;
     $q = "SELECT * FROM category WHERE id_parent = '" . $id_parent . "' ";
-    $r = mysql_query($q) or die(mysql_error());
-
-    $count = mysql_num_rows($r);
+    $r = mysqli_query($con, $q) or die(mysql_error());
+	echo "COUNT";
+    $count = mysqli_num_rows($r);
+	debug( $count, "\$count", true );
 
     if ($id_parent == 0) {
         $space = '';
@@ -157,7 +169,7 @@ function categoryListSelect($id_parent = 0, $space = '') {
     }
     if ($count > 0) {
 
-        while ($row = mysql_fetch_array($r)) {
+        while ($row = mysqli_fetch_array($r)) {
             $cid = $row['id'];
             echo "<option value=" . $cid . ">" . $space . $row['name'] . "</option>";
 
