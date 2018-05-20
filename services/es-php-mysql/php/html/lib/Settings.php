@@ -1,5 +1,7 @@
 <?php
 
+
+
 define ('DEBUG', false);
 error_reporting(0);
 error_reporting(E_ALL);
@@ -19,6 +21,14 @@ define('DB_PASSWORD', getenv( "DB_PASSWORD" )); # docker-compose.yml
 define('DB_DATABASE', getenv( "DB_DATABASE" )); # docker-compose.yml
 
 
+define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
+define('ES_PORT', 9200);
+
+include('api.php');
+
+
+$escategory = new esapi("ecommerce", "category");
+
 function debug($var, $message=null, $forcedebug=false, $echo=false) {
 	if( DEBUG or $forcedebug) {
 		#
@@ -31,11 +41,12 @@ function debug($var, $message=null, $forcedebug=false, $echo=false) {
 		} else {
 			$caller="main";
 		}
+		#
 		echo "<pre>";
 		echo "[DEBUG]";
 		echo "[".basename(__FILE__)."/$caller]";
 		echo "[$message]: ";
-		
+		#
 		if( $var ) {
 			if( $echo ) {
 				echo $var;
@@ -138,8 +149,8 @@ function esCRUDcategory($method, $id, $id_parent, $name, &$result) {
 }
 
 
-define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
-define('ES_PORT', 9200);
+#define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
+#define('ES_PORT', 9200);
 /*
  * get results from query 
  * @param string $index required

@@ -32,9 +32,11 @@ if (isset($_POST['add'])) {
 			debug($id, "\$id", false);
 			//header('location:category-list.php');
 			echo "updating ES...";
-			if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
+			$objcat = new category($id, $id_parent, $name);
+			if( !$escategory->update($objcat)) {
+			#if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
 				echo "ERRORS:\n";
-				echo $result;
+				#echo $result;
 			} else {
 				echo "OK";
 			}

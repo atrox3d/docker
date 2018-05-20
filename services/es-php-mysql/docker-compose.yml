@@ -14,7 +14,7 @@ services:
             # "service is a required property"
             service: elasticsearch
             #
-            # questa immagine non ha il plugnin delete-by-query
+            # questa immagine non ha il plugin delete-by-query
             #
             #file:   ../nested-services-v2/elasticsearch/docker-compose.yml
             #

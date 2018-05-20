@@ -5,6 +5,8 @@ FROM elasticsearch:2.4.6
 # supporta l'endpoint _query con action DELETE
 # è necessario installarlo
 #
+# l'alternativa è usare una immagine più recente
+#
 RUN /usr/share/elasticsearch/bin/plugin install delete-by-query
 
 
