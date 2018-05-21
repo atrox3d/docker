@@ -1,20 +1,24 @@
 <?php
 include('../lib/Settings.php');
 
+$escategory = new esapi("ecommerce", "category");
+
 if (isset($_POST['add'])) {
-	global $con;
+	#global $con;
     extract($_POST);
-    $currentDate = date('Y-m-d H:i:s');
-    
-    $uploadDir = "../uploads/category/";
-    $fileName = $_FILES['image']['name'];
-    $fileTmp = $_FILES['image']['tmp_name'];
-	$exploded = explode('.', $fileName);
-    $fileExt = strtolower(end($exploded));
-    $expensions = array("jpeg", "jpg", "png");
+
+    $currentDate	= date('Y-m-d H:i:s');
+    $uploadDir		= "../uploads/category/";
+    $fileName		= $_FILES['image']['name'];
+    $fileTmp		= $_FILES['image']['tmp_name'];
+	$exploded		= explode('.', $fileName);
+    $fileExt		= strtolower(end($exploded));
+    $expensions		= array("jpeg", "jpg", "png");
+	
     if (in_array($fileExt, $expensions) === false and $fileExt) {
         $errors[] = "extension not allowed, please choose a JPEG or PNG file.";
     }
+	
     $imageName = strtotime($currentDate).'.'.$fileExt;
     if (empty($errors) == true) {
         move_uploaded_file($fileTmp, $uploadDir . $imageName);
@@ -31,16 +35,21 @@ if (isset($_POST['add'])) {
 			$id = mysqli_insert_id($con);
 			debug($id, "\$id", false);
 			//header('location:category-list.php');
-			echo "updating ES...";
+			#
+			#
+			#
+			debug( null, "updating ES...", true);
 			$objcat = new category($id, $id_parent, $name);
 			if( !$escategory->update($objcat)) {
 			#if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
-				echo "ERRORS:\n";
+				debug( null, "ERRORS:\n", true);
 				#echo $result;
 			} else {
-				echo "OK";
+				debug( null, "OK", true);
 			}
-				
+			#
+			#
+			#
 		} else {
 			echo mysqli_error($con);
 		}

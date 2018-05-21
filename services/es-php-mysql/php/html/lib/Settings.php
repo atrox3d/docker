@@ -27,7 +27,7 @@ define('ES_PORT', 9200);
 include('api.php');
 
 
-$escategory = new esapi("ecommerce", "category");
+#$escategory = new esapi("ecommerce", "category");
 
 function debug($var, $message=null, $forcedebug=false, $echo=false) {
 	if( DEBUG or $forcedebug) {

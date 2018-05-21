@@ -75,13 +75,22 @@ class esapi {
 	}
 	
 	function update( idocument $document ) {
-		esCurlCall(
-					$this->index, 
-					$this->type, 
-					$document->getid(), 
-					'PUT', 
-					json_encode($document->getjson())
-		);
+		$jsonresponse = esCurlCall(
+								$this->index, 
+								$this->type, 
+								$document->getid(), 
+								'PUT', 
+								json_encode($document->getjson())
+					);
+		
+		debug($jsonresponse, "\$jsonresponse", true);
+		
+		$response = json_decode( $jsonresponse );
+
+		debug($response, "\$response", true);
+		debug($response->_shards, "\$response->_shards", true);
+		
+		return ($response->_shards->successful > 0 && $response->_shards->failed == 0);
 	}
 	
 	function delete( idocument $document ) {
