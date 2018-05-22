@@ -24,7 +24,7 @@ define('DB_DATABASE', getenv( "DB_DATABASE" )); # docker-compose.yml
 define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
 define('ES_PORT', 9200);
 
-include('api.php');
+require_once('lib.php');
 
 
 #$escategory = new esapi("ecommerce", "category");
