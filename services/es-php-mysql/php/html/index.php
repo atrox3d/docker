@@ -4,6 +4,8 @@
 
 include('lib/Settings.php');
 
+
+
 $q = isset($_GET['q']) ? $_GET['q'] : '';
 if (!empty($q)) {
     $queryString = '_search';
@@ -25,10 +27,10 @@ if (!empty($q)) {
     $jsonDoc = json_encode($params, JSON_PRETTY_PRINT);
     $result = esCurlCall('ecommerce', 'product', $queryString, 'GET', $jsonDoc);
     $result = json_decode($result);
-	debug($result->hits->total, "\$result->hits->total", true);
+	debug::on()::variable($result->hits->total, "\$result->hits->total")::off();
     #echo'<pre>',print_r($result),'</pre>';
 	if( property_exists( $result, 'hits' )) {
-		debug($result->hits, "\$result->hits");
+		debug::variable($result->hits, "\$result->hits");
 		if ($result->hits->total > 0) {
 			$results = $result->hits->hits;
 		}

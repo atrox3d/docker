@@ -29,35 +29,6 @@ require_once('lib.php');
 
 #$escategory = new esapi("ecommerce", "category");
 
-function debug($var, $message=null, $forcedebug=false, $echo=false) {
-	if( DEBUG or $forcedebug) {
-		#
-		# otteniamo caller function se esiste
-		# oppure main
-		#
-		$trace=debug_backtrace();
-		if( isset( $trace[1]['function'] )) {
-			$caller=$trace[1]['function'];
-		} else {
-			$caller="main";
-		}
-		#
-		echo "<pre>";
-		echo "[DEBUG]";
-		echo "[".basename(__FILE__)."/$caller]";
-		echo "[$message]: ";
-		#
-		if( $var ) {
-			if( $echo ) {
-				echo $var;
-			} else {
-				#echo "\n";
-				var_dump($var);
-			}
-		}
-		echo "</pre>\n";
-	}
-}
 
 function dump_dbparams() {
 	echo "<pre>";
@@ -174,9 +145,9 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
     $response = curl_exec($ch);
 	
 	#$decode = json_decode($response, true);
-	debug($url, "\$url/$requeryType", true, true);
-	debug($jsonDoc, "\$jsonDoc", true);
-	debug($response, "\$response", true);
+	debug::variable($url, "\$url/$requeryType", true);
+	debug::variable($jsonDoc, "\$jsonDoc");
+	debug::variable($response, "\$response");
 	if( DEBUG ) {
 		if( !isset( json_decode($response, true)['hits'] )) {
 			echo "<pre>[esCurlCall] ERROR from ELASTIC SEARCH\n</pre>";
