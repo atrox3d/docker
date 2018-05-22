@@ -5,42 +5,46 @@ class debug {
 	#private static $instance=null;
 	private static $instance=null;
 	private static $debug=false;
-	private const GET='GET';
+	#private const GET='GET';
+	
+	#public static function __callStatic($name, $arguments) {
+	#	echo "hello callstatic\n";
+	#}
 	
 	private function __construct($debug=false) {
-		$this->debug= $debug;
+		#$this->debug= $debug;
 	}
 	
-	public static function __invoke($debug=false) {
-		return self::getInstance($debug);
+	#public static function __invoke($debug=false) {
+	#	return self::getInstance($debug);
+	#}
+	
+	#private static function getInstance($debug=false) {
+	#	if( self::$instance == null ) {
+	#		$c = __CLASS__;
+	#		self::$instance = new $c($debug);
+	#	}
+	#	if(func_num_args()==1) self::$instance->debug=$debug;
+	#	return self::$instance;
+	#}
+	
+	public static function on() {
+		self::$debug = true;
+		return __CLASS__;
 	}
 	
-	private static function getInstance($debug=false) {
-		if( self::$instance == null ) {
-			$c = __CLASS__;
-			self::$instance = new $c($debug);
-		}
-		
-		return self::$instance;
+	public static function off() {
+		self::$debug = false;
+		return __CLASS__;
 	}
 	
-	public function on() {
-		$this->debug=true;
-		return $this;
+	public static function check() {
+		return self::$debug;
 	}
 	
-	public function off() {
-		$this->debug=false;
-		return $this;
-	}
-	
-	public function check() {
-		return $this->debug;
-	}
-	
-	public function variable($variable, $message=null, $echo=false) {
-		
-		if( $this->check()) {
+	public static function variable($variable, $message=null, $echo=false) {
+
+		if( self::check()) {
 			#
 			# otteniamo caller function se esiste
 			# oppure main
@@ -67,7 +71,7 @@ class debug {
 			#}
 			echo "</pre>\n";
 		}
-		return debug;
+		return __CLASS__;
 }
 	
 }

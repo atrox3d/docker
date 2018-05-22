@@ -27,10 +27,13 @@ if (!empty($q)) {
     $jsonDoc = json_encode($params, JSON_PRETTY_PRINT);
     $result = esCurlCall('ecommerce', 'product', $queryString, 'GET', $jsonDoc);
     $result = json_decode($result);
-	debug::on()::variable($result->hits->total, "\$result->hits->total")::off();
+	debug::off()
+		::variable($result->hits->total, "\$result->hits->total")
+		::off()
+		::variable(null, "yeeeeeeeee");
     #echo'<pre>',print_r($result),'</pre>';
 	if( property_exists( $result, 'hits' )) {
-		debug::variable($result->hits, "\$result->hits");
+		debug::off()::variable($result->hits, "\$result->hits");
 		if ($result->hits->total > 0) {
 			$results = $result->hits->hits;
 		}

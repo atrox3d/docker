@@ -145,9 +145,9 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
     $response = curl_exec($ch);
 	
 	#$decode = json_decode($response, true);
-	debug::variable($url, "\$url/$requeryType", true);
-	debug::variable($jsonDoc, "\$jsonDoc");
-	debug::variable($response, "\$response");
+	debug::on()::variable($url, "\$url/$requeryType", true);
+	debug::on()::variable($jsonDoc, "\$jsonDoc");
+	debug::on()::variable($response, "\$response");
 	if( DEBUG ) {
 		if( !isset( json_decode($response, true)['hits'] )) {
 			echo "<pre>[esCurlCall] ERROR from ELASTIC SEARCH\n</pre>";
