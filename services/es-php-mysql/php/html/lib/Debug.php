@@ -55,10 +55,23 @@ class debug {
 			} else {
 				$caller="main";
 			}
+			#var_dump(isset($trace[1]['file']));
+			#echo "'{$trace[0]['file']}'\n";
+			#echo "'{$trace[1]['file']}'\n";
+			#var_dump(isset($trace[1]));
+			#$file=isset($trace[1]['file'])?$trace[1]['file']:$trace[0]['file'];
+			#$line=isset($trace[1]['line'])?$trace[1]['line']:$trace[0]['line'];
+			$file=$trace[0]['file'];
+			$line=$trace[0]['line'];
+			#echo "ffile:$file:\n";
+			
+			#$file=$trace[1]['file'];
+			#$line=$trace[1]['line'];
 			#
 			echo "<pre>";
 			echo "[DEBUG]";
-			echo "[".basename(__FILE__)."/$caller]";
+			#echo "[".basename(__FILE__)."/$caller]";
+			echo "[".basename($file)."($line)/$caller]";
 			echo "[$message]: ";
 			#
 			#if( $var ) {
