@@ -9,7 +9,8 @@ echo "<pre>\n";
 		echo "\n\n";
 		echo __FUNCTION__ . "/debug_backtrace:\n";
 		print_r(debug_backtrace());
-		debug::backtrace();
+		debug::on()::backtrace();
+		debug::variable(true);
 	}
 	
 	#level1();
@@ -19,6 +20,7 @@ echo "<pre>\n";
 		echo __FUNCTION__ . "/debug_backtrace:\n";
 		print_r(debug_backtrace());
 		debug::backtrace();
+		debug::variable(true);
 	}
 	
 	#level1();

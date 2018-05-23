@@ -28,6 +28,10 @@ class debug {
 	#	return self::$instance;
 	#}
 	
+	private static function timestamp() {
+		return date("Y/m/d-H:m:s");
+	}
+	
 	public static function on() {
 		self::$debug = true;
 		return __CLASS__;
@@ -43,9 +47,13 @@ class debug {
 	}
 	
 	public static function backtrace($return=false) {
-		if($return) return debug_backtrace();
-		echo "debug::backtrace()\n";
-		print_r(debug_backtrace());
+		$trace = debug_backtrace();
+		
+		if($return) return $trace;
+		
+		#echo "debug::backtrace()\n";
+		print_r($trace);
+		return $trace;
 	}
 	
 	public static function variable($variable, $message=null, $echo=false) {
@@ -56,6 +64,8 @@ class debug {
 			# oppure main
 			#
 			$trace=debug_backtrace();
+			echo "trace[1]:";
+			echo isset($trace[1])?"set":"not set";
 			if( isset( $trace[1]['function'] )) {
 				$caller=$trace[1]['function'];
 			} else {
@@ -66,22 +76,23 @@ class debug {
 			$line=$trace[0]['line'];
 
 			echo "<pre>";
+			echo "[".self::timestamp()."]";
 			echo "[DEBUG]";
-			#echo "[".basename(__FILE__)."/$caller]";
 			echo "[".basename($file)."($line)/$caller]";
-			echo "[$message]: ";
+			if($message)
+				echo "[$message]: ";
 			#
-			#if( $var ) {
-				if( $echo ) {
-					echo $variable;
-				} else {
-					#echo "\n";
-					var_dump($variable);
-				}
-			#}
+			if( $echo ) {
+				echo $variable;
+			} else {
+				print_r($variable);
+			}
 			echo "</pre>\n";
 		}
+		#
+		# static::fluent()::interface()
+		#
 		return __CLASS__;
-}
+	}
 	
 }
