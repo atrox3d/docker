@@ -3,47 +3,58 @@
 
 class debug {
 	#private static $instance=null;
-	private static $instance=null;
-	private static $debug=false;
+	#private static $instance=null;
+	private static $_debug=false;
+	private static $_mirror=false;
 	#private const GET='GET';
 	
 	#public static function __callStatic($name, $arguments) {
 	#	echo "hello callstatic\n";
 	#}
 	
-	private function __construct($debug=false) {
-		#$this->debug= $debug;
+	private function __construct($_debug=false) {
+		#$this->debug= $_debug;
 	}
 	
-	#public static function __invoke($debug=false) {
-	#	return self::getInstance($debug);
+	#public static function __invoke($_debug=false) {
+	#	return self::getInstance($_debug);
 	#}
 	
-	#private static function getInstance($debug=false) {
+	#private static function getInstance($_debug=false) {
 	#	if( self::$instance == null ) {
 	#		$c = __CLASS__;
-	#		self::$instance = new $c($debug);
+	#		self::$instance = new $c($_debug);
 	#	}
-	#	if(func_num_args()==1) self::$instance->debug=$debug;
+	#	if(func_num_args()==1) self::$instance->debug=$_debug;
 	#	return self::$instance;
 	#}
 	
 	private static function timestamp() {
 		return date("Y/m/d-H:m:s");
 	}
+
+	public static function mirror($_mirror=true) {
+		self::$_mirror = $_mirror;
+		logger::mirror($_mirror);
+		logger::debug( __CLASS__ . "::mirror is ". self::$_mirror?"ON":"OFF" ."\n" );
+		return __CLASS__;
+	}
 	
 	public static function on() {
-		self::$debug = true;
+		self::$_debug = true;
+		#fwrite(STDERR, __CLASS__ . " is ON\n");
+		logger::debug( __CLASS__ . " is ON\n" );
 		return __CLASS__;
 	}
 	
 	public static function off() {
-		self::$debug = false;
+		logger::debug( __CLASS__ . " is OFF\n" );
+		self::$_debug = false;
 		return __CLASS__;
 	}
 	
 	public static function check() {
-		return self::$debug;
+		return self::$_debug;
 	}
 	
 	public static function backtrace($return=false) {
@@ -52,7 +63,7 @@ class debug {
 		if($return) return $trace;
 		
 		#echo "debug::backtrace()\n";
-		print_r($trace);
+		logger::debug($trace);
 		return $trace;
 	}
 	
@@ -64,8 +75,8 @@ class debug {
 			# oppure main
 			#
 			$trace=debug_backtrace();
-			echo "trace[1]:";
-			echo isset($trace[1])?"set":"not set";
+			#echo "trace[1]:";
+			#echo isset($trace[1])?"set":"not set";
 			if( isset( $trace[1]['function'] )) {
 				$caller=$trace[1]['function'];
 			} else {
@@ -75,19 +86,20 @@ class debug {
 			$file=$trace[0]['file'];
 			$line=$trace[0]['line'];
 
-			echo "<pre>";
-			echo "[".self::timestamp()."]";
-			echo "[DEBUG]";
-			echo "[".basename($file)."($line)/$caller]";
-			if($message)
-				echo "[$message]: ";
+			$_line  = "<pre>";
+			$_line .= "[".self::timestamp()."]";
+			$_line .= "[DEBUG]";
+			$_line .= "[".basename($file)."($line)/$caller]";
+			if($message) {
+				$_line .= "[$message]: ";
+			}
 			#
 			if( $echo ) {
-				echo $variable;
+				logger::debug($variable);
 			} else {
-				print_r($variable);
+				logger::debug(print_r($variable, true));
 			}
-			echo "</pre>\n";
+			logger::debug("</pre>\n");
 		}
 		#
 		# static::fluent()::interface()

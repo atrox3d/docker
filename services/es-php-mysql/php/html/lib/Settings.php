@@ -145,7 +145,7 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
     $response = curl_exec($ch);
 	
 	#$decode = json_decode($response, true);
-	debug::on()::variable($url, "\$url/$requeryType", true);
+	debug::on()::mirror()::variable($url, "\$url/$requeryType", true);
 	debug::on()::variable($jsonDoc, "\$jsonDoc");
 	debug::on()::variable($response, "\$response");
 	if( DEBUG ) {
