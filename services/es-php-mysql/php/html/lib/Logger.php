@@ -1,6 +1,19 @@
 <?php
 
-#se
+
+ini_set('display_errors', false);
+
+function errorHandler($errno, $errstr) {
+	echo "hey:$errno, $errstr\n";
+}
+
+function shutdown() {
+	echo "shutdown\n";
+}
+
+set_error_handler("errorHandler");
+register_shutdown_function('errorHandler');
+
 class logger {
 	
 	public const INFO	= 0;
