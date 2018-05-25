@@ -88,20 +88,29 @@ class debug {
 			#
 			# TODO*
 			#
-			$_line  = "<pre>";
-			$_line .= "[".self::timestamp()."]";
+			#$_line  = "<pre>";
+			#$_line .= "[".self::timestamp()."]";
 			$_line .= "[DEBUG]";
 			$_line .= "[".basename($file)."($line)/$caller]";
 			if($message) {
 				$_line .= "[$message]: ";
 			}
+			logger::debug("$line\n");
+			exit;
 			#
 			if( $echo ) {
+				#logger::debug("echo\n");
 				logger::debug($variable);
 			} else {
+				#logger::debug("print_r\n");
 				logger::debug(print_r($variable, true));
+				#logger::debug(print_r(json_decode($variable), true));
+				#ob_start();
+				#var_dump($variable);
+				#$result = ob_get_clean();
+				#logger::debug(var_export($variable, true));
 			}
-			logger::debug("</pre>\n");
+			#logger::debug("</pre>\n");
 		}
 		#
 		# static::fluent()::interface()

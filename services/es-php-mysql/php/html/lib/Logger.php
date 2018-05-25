@@ -4,7 +4,8 @@
 ini_set('display_errors', false);
 
 function errorHandler($errno, $errstr) {
-	echo "hey:$errno, $errstr\n";
+	$errormessage="ERRNO: $errno, ERRSTR: $errstr\n";
+	logger::mirror()::error($errormessage);
 }
 
 function shutdown() {
@@ -21,6 +22,8 @@ class logger {
 	public const DEBUG	= 2;
 	public const ERROR	= 3;
 	public const FATAL	= 4;
+	
+	public const MIRROR_TOGGLE = "MIRROR_TOGGLE";
 	
 	private const LOGLEVELS = [
 		self::INFO		=> "INFO",
@@ -44,8 +47,15 @@ class logger {
 		return date("Y/m/d-H:m:s");
 	}
 	
-	public static function mirror($_mirror=true) {
+	public static function mirror($_mirror=self::MIRROR_TOGGLE) {
+		#
+		#
+		#
 		self::$_mirror = $_mirror;
+		#
+		#
+		#
+		return __CLASS__;
 	}
 
 	private static function _square($string) {
