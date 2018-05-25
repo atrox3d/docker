@@ -5,7 +5,7 @@ ini_set('display_errors', false);
 
 function errorHandler($errno, $errstr) {
 	$errormessage="ERRNO: $errno, ERRSTR: $errstr\n";
-	logger::mirror()::error($errormessage);
+	logger::mirror(true)::error($errormessage);
 }
 
 function shutdown() {
@@ -23,7 +23,7 @@ class logger {
 	public const ERROR	= 3;
 	public const FATAL	= 4;
 	
-	public const MIRROR_TOGGLE = "MIRROR_TOGGLE";
+	#public const MIRROR_TOGGLE = "MIRROR_TOGGLE";
 	
 	private const LOGLEVELS = [
 		self::INFO		=> "INFO",
@@ -33,7 +33,7 @@ class logger {
 		self::FATAL	=> "FATAL",
 	];
 
-	private static $_mirror   = null;
+	private static $_mirror   = false;
 	private static $_output   = null;
 	private static $_loglevel = self::INFO;
 	
@@ -47,11 +47,20 @@ class logger {
 		return date("Y/m/d-H:m:s");
 	}
 	
-	public static function mirror($_mirror=self::MIRROR_TOGGLE) {
+	public static function mirror($_mirror=null) {
 		#
 		#
 		#
-		self::$_mirror = $_mirror;
+		echo "<pre>\n";
+		if(is_null($_mirror)) {
+			echo "Logger::mirror \$_mirror :";	var_dump($_mirror); echo "\n";
+			self::$_mirror = !(self::$_mirror);
+			echo "Logger::mirror self::\$_mirror SET TO :";	var_dump(self::$_mirror); echo "\n";
+		} else {
+				self::$_mirror = $_mirror;
+		}
+		echo "</pre>\n";
+		#if(self::$_mirror) echo "mirror is ON\n"; else echo "mirror is OFF\n";
 		#
 		#
 		#
@@ -67,13 +76,18 @@ class logger {
 		$_line .= self::_square(self::LOGLEVELS[$loglevel]);
 		$_line .= $message;
 		
-		fwrite(self::$_output, $_line);
+		echo "<pre>\n";
+		#if(self::$_mirror) 
+		#	echo "Logger::log: mirror is ON\n";
+		#else 
+		#	echo "Logger::log: mirror is OFF\n";
 		
 		if(self::$_mirror) {
-			echo "<pre>\n";
 			echo $_line;
-			echo "</pre>\n";
 		}
+		echo "</pre>\n";
+
+		fwrite(self::$_output, "$_line\n");
 	}
 	
 	public static function info($message) {

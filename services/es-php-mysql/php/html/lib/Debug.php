@@ -5,7 +5,7 @@ class debug {
 	#private static $instance=null;
 	#private static $instance=null;
 	private static $_debug=false;
-	private static $_mirror=false;
+	#private static $_mirror=false;
 	#private const GET='GET';
 	
 	#public static function __callStatic($name, $arguments) {
@@ -33,10 +33,16 @@ class debug {
 		return date("Y/m/d-H:m:s");
 	}
 
-	public static function mirror($_mirror=true) {
-		self::$_mirror = $_mirror;
+	public static function mirror($_mirror=null) {
+		#if(is_null($_mirror)) {
+		#self::$_mirror = $_mirror;
 		logger::mirror($_mirror);
-		logger::debug( __CLASS__ . "::mirror is ". self::$_mirror?"ON":"OFF" ."\n" );
+
+		#$_line  = __CLASS__;
+		#$_line .= "::mirror is ";
+		#$_line .= (self::$_mirror)? "ON":"OFF";
+		#$_line .= "\n";
+		#logger::debug( $_line );
 		return __CLASS__;
 	}
 	
@@ -84,33 +90,36 @@ class debug {
 			}
 
 			$file=$trace[0]['file'];
+			$file=basename($file);
 			$line=$trace[0]['line'];
 			#
 			# TODO*
 			#
 			#$_line  = "<pre>";
 			#$_line .= "[".self::timestamp()."]";
-			$_line .= "[DEBUG]";
-			$_line .= "[".basename($file)."($line)/$caller]";
+			$_line = "";
+			#$_line .= "[DEBUG]";
+			$_line .= "[$file:$line/$caller()]";
 			if($message) {
 				$_line .= "[$message]: ";
 			}
-			logger::debug("$line\n");
-			exit;
+			#logger::debug("$_line\n");
 			#
 			if( $echo ) {
 				#logger::debug("echo\n");
-				logger::debug($variable);
+				#logger::debug($variable);
+				$_line .= $variable;
 			} else {
 				#logger::debug("print_r\n");
-				logger::debug(print_r($variable, true));
+				#logger::debug(print_r($variable, true));
+				$_line .= print_r($variable, true);
 				#logger::debug(print_r(json_decode($variable), true));
 				#ob_start();
 				#var_dump($variable);
 				#$result = ob_get_clean();
 				#logger::debug(var_export($variable, true));
 			}
-			#logger::debug("</pre>\n");
+			logger::debug("$_line\n");
 		}
 		#
 		# static::fluent()::interface()

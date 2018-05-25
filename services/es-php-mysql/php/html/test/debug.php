@@ -13,6 +13,24 @@ echo	"<pre>"
 
 require_once('../lib/lib.php');
 
+function callf($fn) {
+	echo "calling $fn hello\n";
+	call_user_func($fn, "hello");
+}
+
+callf('print_r');
+
+
+
+echo "<pre>";
+echo "null==false : " ;
+echo null==false;
+echo "\n";
+echo "null===false :";
+echo null===false;
+echo "</pre>";
+echo "\n";
+
 
 debug
 	::on()
