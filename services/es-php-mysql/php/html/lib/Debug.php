@@ -85,7 +85,9 @@ class debug {
 
 			$file=$trace[0]['file'];
 			$line=$trace[0]['line'];
-
+			#
+			# TODO*
+			#
 			$_line  = "<pre>";
 			$_line .= "[".self::timestamp()."]";
 			$_line .= "[DEBUG]";
