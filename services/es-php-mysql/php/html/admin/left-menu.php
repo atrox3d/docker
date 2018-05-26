@@ -8,4 +8,7 @@
 	<tr>
 		<td><a href="build-index.php">Build Index</a></td>
 	</tr>
+	<tr>
+		<td><a href="../index.php">Shop</a></td>
+	</tr>
 </table>

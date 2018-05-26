@@ -62,16 +62,16 @@ class Logger {
 		$_line .= self::_square(self::LOGLEVELS[$loglevel]);
 		$_line .= $message;
 		
-		echo "<pre>\n";
 		#if(self::$_mirror) 
 		#	echo "Logger::log: mirror is ON\n";
 		#else 
 		#	echo "Logger::log: mirror is OFF\n";
 		
 		if(self::$_mirror) {
+			echo "<pre>\n";
 			echo $_line;
+			echo "</pre>\n";
 		}
-		echo "</pre>\n";
 
 		fwrite(self::$_output, "$_line\n");
 	}

@@ -69,7 +69,7 @@ class Esapi {
 	private $index;
 	private $type;
 	
-	private function __construct($index, $type) {
+	public function __construct($index, $type) {
 		$this->index = $index;
 		$this->type  = $type;
 	}
@@ -85,12 +85,12 @@ class Esapi {
 								json_encode($document->getjson())
 					);
 		
-		debug($jsonresponse, "\$jsonresponse", true);
+		debug::variable($jsonresponse, "\$jsonresponse");
 		
 		$response = json_decode( $jsonresponse );
 
-		debug($response, "\$response", true);
-		debug($response->_shards, "\$response->_shards", true);
+		debug::variable($response, "\$response");
+		debug::variable($response->_shards, "\$response->_shards");
 		
 		return ($response->_shards->successful > 0 && $response->_shards->failed == 0);
 	}

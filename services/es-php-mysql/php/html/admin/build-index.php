@@ -4,9 +4,12 @@ include('../lib/Settings.php');
 $indexing = isset($_GET['indexing']) ? $_GET['indexing'] : '';
 switch ($indexing) {
     case 'category':
+		#echo "Working... ";
         $queryCat = "SELECT * FROM category";
         $categories = getResult($queryCat);
 		$result=array();
+		$errors=array();
+		$escategory = new Esapi("ecommerce", "category");
         foreach ($categories as $cat) {
 			/*
             $params = [
@@ -18,23 +21,43 @@ switch ($indexing) {
             $result = esCurlCall('ecommerce', 'category', $queryString, 'PUT', $jsonDoc);
             $result = json_decode($result);
 			*/
-			esCRUDcategory( "PUT", $cat['id'], $cat['id_parent'], $cat['name'], $result) || 
-				$errors[]= "error indexing category {$cat['name']}";
+			$id			= $cat['id'];
+			$id_parent	= $cat['id_parent'];
+			$name		= $cat['name'];
+			$objcat = new category($id, $id_parent, $name);
+			#if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
+			if( !$escategory->update($objcat)) {
+				$error = "error indexing category {$cat['name']}";
+				$errors[]= $error;
+				Logger::error($error);
+				#echo $result;
+			} else {
+				debug::log("OK");
+			}
+
+			#esCRUDcategory( "PUT", $cat['id'], $cat['id_parent'], $cat['name'], $result) || 
+			#	$errors[]= "error indexing category {$cat['name']}";
         }
 		
-        #debug($result, "\$result");
 		
         #if ($result->_shards->successful == 1) {
         #    echo "Category indexing successful";
         #}
-		print_r($errors);
+		if($errors) { 
+			print_r($errors);
+		} else {
+            echo "Categories indexing successful";
+		}
 
         break;
     case 'product':
+		$esproduct = new Esapi("ecommerce", "product");
+		
         $queryProduct = "SELECT p.*, c.name AS category_name  FROM product AS p
         INNER JOIN category AS c ON c.id = p.id_category ";
         $product = getResult($queryProduct);
         #echo'<pre>', print_r($product), '</pre>';die;
+		$errors = array();
         foreach ($product as $prod) {
             $params = [
                 'id_category' => $prod['id_category'],
@@ -50,12 +73,48 @@ switch ($indexing) {
             $result = esCurlCall('ecommerce', 'product', $queryString, 'PUT', $jsonDoc);
             $result = json_decode($result);
             #if( DEBUG ) echo'<pre>', print_r($result), '</pre>';
-            debug($result, "\$result");
+            debug::variable($result, "\$result");
+			
+			
+			$id				= $prod['id'];
+			$id_category	= $prod['id_category'];
+			$category_name	= $prod['category_name'];
+			$name			= htmlentities($prod['name']);
+			$price			= $prod['price'];
+			$quantity		= $prod['quantity'];
+			$description	= htmlentities($prod['description']);
+			$image			= 'uploads/product/'.$prod['image'];
+			
+			$objprod	= new product(
+										$id,
+										$id_category,
+										$category_name,
+										$name,
+										$price,
+										$quantity,
+										$description,
+										$image
+						);
+			#if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
+			if( !$esproduct->update($objprod)) {
+				$error = "error indexing category {$cat['name']}";
+				$errors[]= $error;
+				Logger::error($error);
+				#echo $result;
+			} else {
+				debug::log("OK");
+			}
+			
         }
         //echo'<pre>', print_r($result), '</pre>';
-        if ($result->_shards->successful == 1) {
-            echo "product indexing successful";
-        }
+        #if ($result->_shards->successful == 1) {
+        #    echo "product indexing successful";
+        #}
+		if($errors) { 
+			print_r($errors);
+		} else {
+            echo "Products indexing successful";
+		}
         break;
 }
 ?>

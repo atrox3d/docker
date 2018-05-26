@@ -35,13 +35,8 @@ class Debug {
 		return $trace;
 	}
 	
-	public static function variable($variable, $message=null, $echo=false) {
-
+	public static function log($message) {
 		if( self::check()) {
-			#
-			# otteniamo caller function se esiste
-			# oppure main
-			#
 			$trace=debug_backtrace();
 			if( isset( $trace[1]['function'] )) {
 				$caller=$trace[1]['function'];
@@ -56,17 +51,44 @@ class Debug {
 
 			$_line = "";
 			$_line .= "[$file:$linenumber/$caller()]";
+			#if($message) {
+				$_line .= $message;
+			#}
+			
+			Logger::debug($message);
+		}
+	}
+	public static function variable($variable, $message=null, $echo=false) {
+
+		#if( self::check()) {
+			#
+			# otteniamo caller function se esiste
+			# oppure main
+			#
+			#$trace=debug_backtrace();
+			#if( isset( $trace[1]['function'] )) {
+			#	$caller=$trace[1]['function'];
+			#} else {
+			#	$caller="main";
+			#}
+            #
+			#$file=$trace[0]['file'];
+			#$file=basename($file);
+            #
+			#$linenumber=$trace[0]['line'];
+            #
+			$_line = "";
+			#$_line .= "[$file:$linenumber/$caller()]";
 			if($message) {
 				$_line .= "[$message]: ";
 			}
-
 			if( $echo ) {
 				$_line .= $variable;
 			} else {
 				$_line .= print_r($variable, true);
 			}
-			logger::debug("$_line\n");
-		}
+			self::log("$_line");
+		#}
 		#
 		# static::fluent()::interface()
 		#

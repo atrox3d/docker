@@ -42,10 +42,10 @@ if (isset($_POST['add'])) {
 			$objcat = new category($id, $id_parent, $name);
 			if( !$escategory->update($objcat)) {
 			#if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
-				debug( null, "ERRORS:\n", true);
+				debug::log("ERRORS:\n");
 				#echo $result;
 			} else {
-				debug( null, "OK", true);
+				debug::log("OK");
 			}
 			#
 			#
