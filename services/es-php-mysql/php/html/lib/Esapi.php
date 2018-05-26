@@ -84,21 +84,32 @@ class Esapi {
 	 * @author Rajneesh Singh <rajneesh.hlm@gmail.com>
 	 */
 	private function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
-		$url = 'http://' . ES_HOST . ':' . ES_PORT . '/' . $index . '/' . $type . '/' . $queryString;
+		$url	= 'http://' 
+				. ES_HOST 
+				. ':' 
+				. ES_PORT 
+				. '/' 
+				. $index 
+				. '/' 
+				. $type 
+				. '/' 
+				. $queryString;
+				
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_PORT, ES_PORT);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 200);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_FORBID_REUSE, 0);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $requeryType);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDoc);
+		curl_setopt($ch, CURLOPT_URL,				$url);
+		curl_setopt($ch, CURLOPT_PORT,				ES_PORT);
+		curl_setopt($ch, CURLOPT_TIMEOUT,			200);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER,	1);
+		curl_setopt($ch, CURLOPT_FORBID_REUSE, 		0);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST,		$requeryType);
+		curl_setopt($ch, CURLOPT_POSTFIELDS,		$jsonDoc);
 		$response = curl_exec($ch);
 		
 		#$decode = json_decode($response, true);
 		debug::on()::variable($url, "\$url/$requeryType", true);
 		debug::on()::variable($jsonDoc, "\$jsonDoc");
 		debug::on()::variable(json_decode($response), "\$response");
+		debug::off();
 		if( debug::check() ) {
 			if( !isset( json_decode($response, true)['hits'] )) {
 				debug::log("ERROR from ELASTIC SEARCH");
@@ -111,7 +122,7 @@ class Esapi {
 				#debug(json_decode($response, true), "\$response");
 			}
 		}
-			return $response;
+		return $response;
 	}
 
 	
@@ -136,13 +147,24 @@ class Esapi {
 	
 	function delete( idocument $document ) {
 		
-		$this->esCurlCall(
-						$this->$index, 
-						$this->$type, 
-						$document->getid(), 
-						'DELETE', 
-						json_encode($document->getjson())
-		);
+		$jsonresponse = $this->esCurlCall(
+							$this->index, 
+							$this->type, 
+							$document->getid(), 
+							'DELETE', 
+							json_encode($document->getjson())
+					);
+
+		$response = json_decode( $jsonresponse );
+
+		#debug::on()::mirror();
+		#debug::variable($response, "\$response");
+		#debug::variable($response->_shards, "\$response->_shards");
+		#debug::off()::mirror();
+		return ($response->_shards->successful > 0 && $response->_shards->failed == 0);
+	}
+	
+	function search() {
 	}
 	
 }

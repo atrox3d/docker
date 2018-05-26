@@ -29,16 +29,16 @@ if (isset($_POST['add'])) {
             image = '" . $imageName . "',
             date_add = '" . $currentDate . "',
             date_upd = '" . $currentDate . "' ";
-		debug($sql, "\$sql", false);
+		debug::variable($sql, "\$sql");
 		
         if( mysqli_query($con, $sql) ) {
 			$id = mysqli_insert_id($con);
-			debug($id, "\$id", false);
+			debug::variable($id, "\$id");
 			//header('location:category-list.php');
 			#
 			#
 			#
-			debug( null, "updating ES...", true);
+			debug::log("updating ES...");
 			$objcat = new category($id, $id_parent, $name);
 			if( !$escategory->update($objcat)) {
 			#if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
