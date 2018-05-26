@@ -165,6 +165,7 @@ class Esapi {
 	}
 	
 	function search() {
+		
 	}
 	
 }
