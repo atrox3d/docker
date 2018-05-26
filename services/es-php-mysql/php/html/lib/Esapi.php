@@ -62,17 +62,19 @@ class product implements idocument {
 
 
 
-class esapi {
+class Esapi {
 	private $host=ES_HOST;
 	private $port=ES_PORT;
 	
 	private $index;
 	private $type;
 	
-	function __construct($index, $type) {
+	private function __construct($index, $type) {
 		$this->index = $index;
 		$this->type  = $type;
 	}
+	
+
 	
 	function update( idocument $document ) {
 		$jsonresponse = esCurlCall(

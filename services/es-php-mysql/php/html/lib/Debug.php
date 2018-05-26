@@ -1,54 +1,17 @@
 <?php
 
 
-class debug {
-	#private static $instance=null;
-	#private static $instance=null;
+class Debug {
+
 	private static $_debug=false;
-	#private static $_mirror=false;
-	#private const GET='GET';
 	
-	#public static function __callStatic($name, $arguments) {
-	#	echo "hello callstatic\n";
-	#}
-	
-	private function __construct($_debug=false) {
-		#$this->debug= $_debug;
-	}
-	
-	#public static function __invoke($_debug=false) {
-	#	return self::getInstance($_debug);
-	#}
-	
-	#private static function getInstance($_debug=false) {
-	#	if( self::$instance == null ) {
-	#		$c = __CLASS__;
-	#		self::$instance = new $c($_debug);
-	#	}
-	#	if(func_num_args()==1) self::$instance->debug=$_debug;
-	#	return self::$instance;
-	#}
-	
-	private static function timestamp() {
-		return date("Y/m/d-H:m:s");
-	}
-
 	public static function mirror($_mirror=null) {
-		#if(is_null($_mirror)) {
-		#self::$_mirror = $_mirror;
 		logger::mirror($_mirror);
-
-		#$_line  = __CLASS__;
-		#$_line .= "::mirror is ";
-		#$_line .= (self::$_mirror)? "ON":"OFF";
-		#$_line .= "\n";
-		#logger::debug( $_line );
 		return __CLASS__;
 	}
 	
 	public static function on() {
 		self::$_debug = true;
-		#fwrite(STDERR, __CLASS__ . " is ON\n");
 		logger::debug( __CLASS__ . " is ON\n" );
 		return __CLASS__;
 	}
@@ -68,7 +31,6 @@ class debug {
 		
 		if($return) return $trace;
 		
-		#echo "debug::backtrace()\n";
 		logger::debug($trace);
 		return $trace;
 	}
@@ -81,8 +43,6 @@ class debug {
 			# oppure main
 			#
 			$trace=debug_backtrace();
-			#echo "trace[1]:";
-			#echo isset($trace[1])?"set":"not set";
 			if( isset( $trace[1]['function'] )) {
 				$caller=$trace[1]['function'];
 			} else {
@@ -91,33 +51,19 @@ class debug {
 
 			$file=$trace[0]['file'];
 			$file=basename($file);
-			$line=$trace[0]['line'];
-			#
-			# TODO*
-			#
-			#$_line  = "<pre>";
-			#$_line .= "[".self::timestamp()."]";
+
+			$linenumber=$trace[0]['line'];
+
 			$_line = "";
-			#$_line .= "[DEBUG]";
-			$_line .= "[$file:$line/$caller()]";
+			$_line .= "[$file:$linenumber/$caller()]";
 			if($message) {
 				$_line .= "[$message]: ";
 			}
-			#logger::debug("$_line\n");
-			#
+
 			if( $echo ) {
-				#logger::debug("echo\n");
-				#logger::debug($variable);
 				$_line .= $variable;
 			} else {
-				#logger::debug("print_r\n");
-				#logger::debug(print_r($variable, true));
 				$_line .= print_r($variable, true);
-				#logger::debug(print_r(json_decode($variable), true));
-				#ob_start();
-				#var_dump($variable);
-				#$result = ob_get_clean();
-				#logger::debug(var_export($variable, true));
 			}
 			logger::debug("$_line\n");
 		}
@@ -126,5 +72,8 @@ class debug {
 		#
 		return __CLASS__;
 	}
-	
 }
+
+
+
+?>
