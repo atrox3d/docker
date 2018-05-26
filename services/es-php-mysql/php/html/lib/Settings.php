@@ -92,7 +92,7 @@ function getResult($query) {
     return $new_array;
 }
 
-
+/*
 function esCRUDcategory($method, $id, $id_parent, $name, &$result) {
 	
 	switch($method) {
@@ -118,7 +118,7 @@ function esCRUDcategory($method, $id, $id_parent, $name, &$result) {
 	return ($result->_shards->successful == 1) ? true : false;
 
 }
-
+*/
 
 #define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
 #define('ES_PORT', 9200);
@@ -131,8 +131,12 @@ function esCRUDcategory($method, $id, $id_parent, $name, &$result) {
  * @param json $jsonDoc optional
  * @author Rajneesh Singh <rajneesh.hlm@gmail.com>
  */
-
 function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
+	
+	echo "<pre>";
+	echo "please update you code, " . __function__ . " is no more available\n";
+	var_dump(debug_backtrace());
+	exit;
     $url = 'http://' . ES_HOST . ':' . ES_PORT . '/' . $index . '/' . $type . '/' . $queryString;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -162,6 +166,7 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
 	}
 		return $response;
 }
+
 
 function categoryListSelect($id_parent = 0, $space = '') {
 	global $con;

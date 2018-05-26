@@ -59,21 +59,21 @@ switch ($indexing) {
         #echo'<pre>', print_r($product), '</pre>';die;
 		$errors = array();
         foreach ($product as $prod) {
-            $params = [
-                'id_category' => $prod['id_category'],
-                'category_name' => $prod['category_name'],
-                'name' => htmlentities($prod['name']),
-                'price' => $prod['price'],
-                'quantity' => $prod['quantity'],
-                'description' => htmlentities($prod['description']),
-                'image' => 'uploads/product/'.$prod['image']
-            ];
-            $jsonDoc = json_encode($params);
-            $queryString = $prod['id'];
-            $result = esCurlCall('ecommerce', 'product', $queryString, 'PUT', $jsonDoc);
-            $result = json_decode($result);
-            #if( DEBUG ) echo'<pre>', print_r($result), '</pre>';
-            debug::variable($result, "\$result");
+            #$params = [
+            #    'id_category' => $prod['id_category'],
+            #    'category_name' => $prod['category_name'],
+            #    'name' => htmlentities($prod['name']),
+            #    'price' => $prod['price'],
+            #    'quantity' => $prod['quantity'],
+            #    'description' => htmlentities($prod['description']),
+            #    'image' => 'uploads/product/'.$prod['image']
+            #];
+            #$jsonDoc = json_encode($params);
+            #$queryString = $prod['id'];
+            #$result = esCurlCall('ecommerce', 'product', $queryString, 'PUT', $jsonDoc);
+            #$result = json_decode($result);
+            ##if( DEBUG ) echo'<pre>', print_r($result), '</pre>';
+            #debug::variable($result, "\$result");
 			
 			
 			$id				= $prod['id'];
