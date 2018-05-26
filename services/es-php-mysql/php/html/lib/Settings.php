@@ -75,17 +75,17 @@ if (!$con) {
 function getResult($query) {
 	global $con;
 	#
-	debug($con, "\$con");
-	debug($query, "\$query");
+	debug::variable($con, "\$con");
+	debug::variable($query, "\$query");
 	#
     $query = mysqli_query($con, $query);
 	#
-	debug($query, "\$query");
+	debug::variable($query, "\$query");
 	#
     $new_array = array();
     while ($row = mysqli_fetch_assoc($query)) {
 		#
-		debug($row, "\$row");
+		debug::variable($row, "\$row");
 		#
         $new_array[] = $row;
     }
