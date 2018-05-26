@@ -5,11 +5,17 @@ services:
         extends:
             file:    ./mysql/docker-compose.yml
             service: mysql
+
+        volumes:
+            # montando il progetto da linux non si riesce a scrivere su share win
+            # serve la creazione in locale dei path dati
+            - "~/docker_data/mysql:/var/lib/mysql"
       
     es:
         # funziona: crea correttamente la cartella in questa directory
         volumes:
-             - "./es/esdata:/usr/share/elasticsearch/data"             
+             #- "./es/esdata:/usr/share/elasticsearch/data"             
+             - "~/docker_data/esdata:/usr/share/elasticsearch/data"             
         extends:
             # "service is a required property"
             service: elasticsearch
