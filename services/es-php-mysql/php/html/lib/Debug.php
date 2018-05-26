@@ -44,10 +44,10 @@ class Debug {
 				$caller="main";
 			}
 
-			$file=$trace[0]['file'];
+			$file=$trace[1]['file'];
 			$file=basename($file);
 
-			$linenumber=$trace[0]['line'];
+			$linenumber=$trace[1]['line'];
 
 			$_line = "";
 			$_line .= "[$file:$linenumber/$caller()]";
@@ -55,7 +55,7 @@ class Debug {
 				$_line .= $message;
 			#}
 			
-			Logger::debug($message);
+			Logger::debug($_line);
 		}
 	}
 	public static function variable($variable, $message=null, $echo=false) {

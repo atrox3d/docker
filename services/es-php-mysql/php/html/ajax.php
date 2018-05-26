@@ -15,24 +15,33 @@ if (!empty($q)) {
         ]
     ];
    
-    $jsonDoc = json_encode($params);
+    #$jsonDoc = json_encode($params);
     
-    $result = esCurlCall('ecommerce', 'category,product', $queryString, 'GET', $jsonDoc);
-    $result = json_decode($result);
+    #$result = esCurlCall('ecommerce', 'category,product', $queryString, 'GET', $jsonDoc);
+    #$result = json_decode($result);
     #echo'<pre>',print_r($result),'</pre>';
-    if ($result->hits->total > 0) {
-        $results = $result->hits->hits;
-        #echo'<pre>', print_r($results), '</pre>';
-        ?>
-        <ul id="country-list">
-            <?php
-            foreach ($results as $r) {
-            ?>
-                <li onClick="selectSuggesstion('<?php echo($r->_source->name) ?>');"><?php echo($r->_source->name) ?></li>
-            <?php } ?>
-        </ul>
-        <?php
-    }
+	$esquery = new Esapi('ecommerce', 'category,product');
+	$result = null;
+	if($esquery->search(null, $params, $result)) {
+		if ($result->hits->total > 0) {
+			$results = $result->hits->hits;
+			#echo'<pre>', print_r($results), '</pre>';
+			?>
+			<ul id="country-list">
+				<?php
+				foreach ($results as $r) {
+				?>
+					<li onClick="selectSuggesstion('<?php echo($r->_source->name) ?>');"><?php echo($r->_source->name) ?></li>
+				<?php } ?>
+			</ul>
+			<?php
+		}
+    } else {
+		echo "<pre>";
+		var_dump($result);
+		echo "</pre>";
+	}
+	
 }
 /*
 if (!empty($q)) {

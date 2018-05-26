@@ -30,12 +30,21 @@ class category implements idocument {
 
 class product implements idocument {
 	
-	private $id, $id_category, $category_name, $name, $price, $quantity, $description, $image;
+	private $id, 
+			$id_category, 
+			$category_name, 
+			$parent_category_name, 
+			$name, 
+			$price, 
+			$quantity, 
+			$description, 
+			$image;
 	
-	function __construct($id, $id_category, $category_name, $name, $price, $quantity, $description, $image) {
+	function __construct($id, $id_category, $category_name, $parent_category_name, $name, $price, $quantity, $description, $image) {
 		$this->id				= $id;
 		$this->id_category		= $id_category;
 		$this->category_name	= $category_name;
+		$this->parent_category_name	= $parent_category_name;
 		$this->name				= $name;
 		$this->price			= $price;
 		$this->quantity			= $quantity;
@@ -47,6 +56,7 @@ class product implements idocument {
 		return [
 					'id_category'	=> $this->id_category,
 					'category_name'	=> $this->category_name,
+					'parent_category_name'	=> $this->parent_category_name,
 					'name'			=> $this->name,
 					'price'			=> $this->price,
 					'quantity'		=> $this->quantity,
@@ -164,8 +174,33 @@ class Esapi {
 		return ($response->_shards->successful > 0 && $response->_shards->failed == 0);
 	}
 	
-	function search() {
+	function search($types, $paramarray, &$result, $jsonencode=true) {
+		$_types=null;
+		$_jsonparams=null;
 		
+		if(isset($types)) {
+			$_types = $types;
+		} else {
+			$_types =  $this->type;
+		}
+		
+		if($jsonencode) {
+			$_jsonparams = json_encode($paramarray);
+		} else {
+			$_jsonparams = $paramarray;
+		}
+		
+		$jsonresponse = $this->esCurlCall(
+											$this->index,
+											$_types,
+											'_search',
+											'GET',
+											$_jsonparams
+						);
+		
+		$result=json_decode($jsonresponse);
+		
+		return (property_exists( $result, 'hits' ));
 	}
 	
 }

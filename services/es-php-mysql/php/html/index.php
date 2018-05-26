@@ -6,8 +6,10 @@ include('lib/Settings.php');
 
 
 
-$q = isset($_GET['q']) ? $_GET['q'] : '';
-if (!empty($q)) {
+$q = isset($_GET['q']) ? $_GET['q'] : null;
+$q = empty($q) ? null : $q;
+if (!is_null($q)) {
+	#echo "q='$q'\n";
     $queryString = '_search';
     $params = [
         "from" => 0,
@@ -15,27 +17,31 @@ if (!empty($q)) {
         "query" => [
             "multi_match" => [
                 "query" => $q,
-                #type" => "best_fields",
-                "type" => "phrase_prefix",
-                "fields" => ["name", "category_name"],
+                "type" => "best_fields",
+                #"type" => "phrase_prefix",
+                "fields" => ["name", "category_name", "parent_category_name"],
                 #"fields" => ["name", ],
-                "operator" => "and"
+                #"operator" => "or"
             ]
         ]
     ];
-   
-    $jsonDoc = json_encode($params, JSON_PRETTY_PRINT);
-    $result = esCurlCall('ecommerce', 'product', $queryString, 'GET', $jsonDoc);
-    $result = json_decode($result);
-	debug::off()
-		::variable($result->hits->total, "\$result->hits->total")
-		::off()
-		::variable(null, "yeeeeeeeee");
-    #echo'<pre>',print_r($result),'</pre>';
-	if( property_exists( $result, 'hits' )) {
-		debug::off()::variable($result->hits, "\$result->hits");
-		if ($result->hits->total > 0) {
-			$results = $result->hits->hits;
+	
+	$esquery = new Esapi('ecommerce', 'product');
+	$result = null;
+	if($esquery->search(null, $params, $result)) {
+		#$jsonDoc = json_encode($params, JSON_PRETTY_PRINT);
+		#$result = esCurlCall('ecommerce', 'product', $queryString, 'GET', $jsonDoc);
+		#$result = json_decode($result);
+		debug::off()
+			::variable($result->hits->total, "\$result->hits->total")
+			::off()
+			::variable(null, "yeeeeeeeee");
+		#echo'<pre>',print_r($result),'</pre>';
+		if( property_exists( $result, 'hits' )) {
+			debug::off()::variable($result->hits, "\$result->hits");
+			if ($result->hits->total > 0) {
+				$results = $result->hits->hits;
+			}
 		}
 	}
     #echo'<pre>', print_r($results), '</pre>';
@@ -98,7 +104,11 @@ if (!empty($q)) {
                     </div>     
                 <?php } ?>
             <?php } else {?>
-				no results from ES
+				<?php if(!is_null($q)) {?>
+				<pre>
+					no results from ES
+				</pre>
+				<? } ?>
 			<?php } ?>
 			
 			

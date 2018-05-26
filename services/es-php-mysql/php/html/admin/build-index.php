@@ -53,8 +53,9 @@ switch ($indexing) {
     case 'product':
 		$esproduct = new Esapi("ecommerce", "product");
 		
-        $queryProduct = "SELECT p.*, c.name AS category_name  FROM product AS p
-        INNER JOIN category AS c ON c.id = p.id_category ";
+        #$queryProduct = "SELECT p.*, c.name AS category_name  FROM product AS p
+        #INNER JOIN category AS c ON c.id = p.id_category ";
+        $queryProduct = "SELECT p.*, c.name AS category_name, pc.name AS parent_category_name  FROM product AS p INNER JOIN category AS c ON c.id = p.id_category LEFT JOIN category AS pc on c.id_parent = pc.id";
         $product = getResult($queryProduct);
         #echo'<pre>', print_r($product), '</pre>';die;
 		$errors = array();
@@ -79,6 +80,7 @@ switch ($indexing) {
 			$id				= $prod['id'];
 			$id_category	= $prod['id_category'];
 			$category_name	= $prod['category_name'];
+			$parent_category_name	= $prod['parent_category_name'];
 			$name			= htmlentities($prod['name']);
 			$price			= $prod['price'];
 			$quantity		= $prod['quantity'];
@@ -89,6 +91,7 @@ switch ($indexing) {
 										$id,
 										$id_category,
 										$category_name,
+										$parent_category_name,
 										$name,
 										$price,
 										$quantity,
