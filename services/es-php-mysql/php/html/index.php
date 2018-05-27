@@ -15,19 +15,33 @@ if (!is_null($q)) {
     $params = [
         "from" => 0,
         "size" => 20, //get 20 records
+		/*
         "query" => [
-            #"multi_match" => [
-            #    "query" => $q,
+            "multi_match" => [
+                "query" => $q,
             #    "type" => "best_fields",
             #    #"type" => "phrase_prefix",
-            #    "fields" => ["name", "category_name", "parent_category_name"],
+                "fields" => ["name", "category_name", "parent_category_name"],
             #    #"fields" => ["name", ],
             #    #"operator" => "or"
             #]
+			],
+        ]
+		*/
+		/*
+        "query" => [
 			"wildcard" => [
 				"name" => "*$q*"
 			],
         ]
+		*/
+		#/*
+        "query" => [
+			"match" => [
+				"name" => "$q"
+			],
+        ]
+		#*/
     ];
 	
 	$esquery = new Esapi('ecommerce', 'product');
