@@ -1,6 +1,6 @@
 <?php
 include('../lib/Settings.php');
-
+#esapi ok
 $escategory = new esapi("ecommerce", "category");
 
 if (isset($_POST['add'])) {

@@ -1,14 +1,19 @@
 <?php
 include('../lib/Settings.php');
+
+
 if(isset($_POST['add'])){
+	
 	extract($_POST);
-	$currentDate = date('Y-m-d H:i:s');
-	$uploadDir = "../uploads/product/";
-    $fileName = $_FILES['image']['name'];
-    $fileTmp = $_FILES['image']['tmp_name'];
-    $fileExt = strtolower(end(explode('.', $fileName)));
-    $expensions = array("jpeg", "jpg", "png");
-    if (in_array($fileExt, $expensions) === false) {
+	
+	$currentDate	= date('Y-m-d H:i:s');
+	$uploadDir		= "../uploads/product/";
+    $fileName		= $_FILES['image']['name'];
+    $fileTmp		= $_FILES['image']['tmp_name'];
+    $fileExt		= strtolower(end(explode('.', $fileName)));
+    $expensions		= array("jpeg", "jpg", "png");
+	
+    if (in_array($fileExt, $expensions) === false && $filext) {
         $errors[] = "extension not allowed, please choose a JPEG or PNG file.";
     }
     $imageName = strtotime($currentDate).'.'.$fileExt;
@@ -16,18 +21,42 @@ if(isset($_POST['add'])){
         move_uploaded_file($fileTmp, $uploadDir . $imageName);
         
         echo $sql = "INSERT INTO product SET 
-			id_category = '".$id_category."',
-			name = '".addslashes(trim($name))."',
-			price = '".addslashes(trim($price))."',
-			quantity = '".addslashes(trim($quantity))."',
-			image = '".trim($imageName)."',
-			description = '".trim($description)."',
-			date_add = '" . $currentDate . "',
-            date_upd = '" . $currentDate . "'
-			
+			id_category = '"	. $id_category."',
+			name = '"			. addslashes(trim($name))."',
+			price = '"			. addslashes(trim($price))."',
+			quantity = '"		. addslashes(trim($quantity))."',
+			image = '"			. trim($imageName)."',
+			description = '"	. trim($description)."',
+			date_add = '" 		. $currentDate . "',
+            date_upd = '"		. $currentDate . "'
 			 ";
-		mysql_query($sql);
-		header('location:articles-list.php');
+		
+		if(mysqli_query($con, $sql)) {
+			$id = mysqli_insert_id($con);
+			
+			$esproduct = new Esapi('ecommerce', 'product');
+			$objprod = new product(
+									$id,
+									$id_category,
+									$name,
+									$price,
+									$quantity,
+									$imageName,
+									$description,
+									$currentDate,
+									$currentDate,
+							);
+			
+			if( !$esproduct->update($objprod)) {
+				debug::log("ERRORS:\n");
+			} else {
+				debug::log("OK");
+			}
+			
+			header('location:articles-list.php');
+		} else {
+			echo mysqli_error($con);
+		}
     } else {
         print_r($errors);
     }

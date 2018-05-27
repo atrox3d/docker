@@ -122,7 +122,8 @@ if (!is_null($q)) {
 										"\"uploads/product/noimage.png\"" 
 								?>
 								width="60" 
-								height="60">
+								height="60"
+							>
 						</div>
                         <div class="product-right">
                             <div class="name">
@@ -143,7 +144,10 @@ if (!is_null($q)) {
 			<?php } ?>
 			
 			
-        </div>	
+        </div>
+		<div>
+			details
+		</div>
     </body>
     <script>
             $(document).ready(function () {

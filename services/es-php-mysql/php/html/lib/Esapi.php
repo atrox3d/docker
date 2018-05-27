@@ -39,9 +39,23 @@ class product implements idocument {
 			$price, 
 			$quantity, 
 			$description, 
-			$image;
+			$image,
+			$date_add,
+			$date_upd;
 	
-	function __construct($id, $id_category, $category_name, $parent_category_name, $name, $price, $quantity, $description, $image) {
+	function __construct(
+							$id, 
+							$id_category, 
+							$category_name, 
+							$parent_category_name, 
+							$name, 
+							$price, 
+							$quantity, 
+							$description, 
+							$image,
+							$date_add,
+							$date_upd
+						) {
 		$this->id				= $id;
 		$this->id_category		= $id_category;
 		$this->category_name	= $category_name;
@@ -51,6 +65,8 @@ class product implements idocument {
 		$this->quantity			= $quantity;
 		$this->description		= $description;
 		$this->image			= $image;
+		$this->date_add			= $date_add;
+		$this->date_upd			= $date_upd;
 	}
 	
 	public function getjson() {
@@ -64,6 +80,8 @@ class product implements idocument {
 					'quantity'		=> $this->quantity,
 					'description'	=> $this->description,
 					'image'			=> $this->image,
+					'date_add'		=> $this->date_add,
+					'date_upd'		=> $this->date_upd,
 				];
 	}
 	

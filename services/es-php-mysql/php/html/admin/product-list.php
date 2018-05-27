@@ -3,7 +3,7 @@ include('../lib/Settings.php');
 
 if(isset($_GET['action']) && $_GET['action'] == 'del'){
 	$sql = "DELETE FROM product WHERE id = '".$_GET['id']."' ";
-	mysql_query($sql);
+	mysqli_query($con, $sql);
 	header('location:product-list.php');
 }
 
@@ -30,7 +30,17 @@ $results =  getResult($query);
 				<?php foreach($results as $res){ ?>
 					<tr>
 						<td align="center"><?php echo($res['id']); ?></td>
-						<td align="center"><img src="../uploads/product/<?php echo($res['image']); ?>" width="80" height="80"></td>
+						<td align="center">
+							<img src=
+								<?php
+									echo file_exists("../uploads/product/{$res['image']}") ? 
+									"\"../uploads/product/{$res['image']}\"" : 
+									"\"../uploads/product/noimage.png\"";
+								?>
+								width="80" 
+								height="80"
+							>
+						</td>
 						<td align="center"><?php echo($res['name']); ?></td>
 						<td align="center"><?php echo($res['price']); ?></td>
 						<td align="center"><?php echo($res['quantity']); ?></td>

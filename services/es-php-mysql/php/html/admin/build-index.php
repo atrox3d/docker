@@ -1,6 +1,8 @@
 <?php
 include('../lib/Settings.php');
 
+#esapi ok
+
 $indexing = isset($_GET['indexing']) ? $_GET['indexing'] : '';
 switch ($indexing) {
     case 'category':
