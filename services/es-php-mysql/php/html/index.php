@@ -8,6 +8,7 @@ include('lib/Settings.php');
 
 $q = isset($_GET['q']) ? $_GET['q'] : null;
 $q = empty($q) ? null : $q;
+
 if (!is_null($q)) {
 	#echo "q='$q'\n";
     $queryString = '_search';
@@ -28,7 +29,7 @@ if (!is_null($q)) {
 	
 	$esquery = new Esapi('ecommerce', 'product');
 	$result = null;
-	if($esquery->search(null, $params, $result)) {
+	if($esquery->search( /*null,*/ $params, $result)) {
 		#$jsonDoc = json_encode($params, JSON_PRETTY_PRINT);
 		#$result = esCurlCall('ecommerce', 'product', $queryString, 'GET', $jsonDoc);
 		#$result = json_decode($result);

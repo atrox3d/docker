@@ -22,7 +22,7 @@ if (!empty($q)) {
     #echo'<pre>',print_r($result),'</pre>';
 	$esquery = new Esapi('ecommerce', 'category,product');
 	$result = null;
-	if($esquery->search(null, $params, $result)) {
+	if($esquery->search( /*null,*/ $params, $result)) {
 		if ($result->hits->total > 0) {
 			$results = $result->hits->hits;
 			#echo'<pre>', print_r($results), '</pre>';

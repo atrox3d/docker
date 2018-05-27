@@ -7,9 +7,13 @@ services:
             service: mysql
 
         volumes:
+            #- "./mysql/mysql:/var/lib/mysql"
             # montando il progetto da linux non si riesce a scrivere su share win
             # serve la creazione in locale dei path dati
             - "~/docker_data/mysql:/var/lib/mysql"
+
+        #ports:
+        #    - 3306:3306
       
     es:
         # funziona: crea correttamente la cartella in questa directory
@@ -34,17 +38,22 @@ services:
             
         #command: /usr/share/elasticsearch/bin/plugin install delete-by-query
         
-        ports:
-            - 9200:9200
-            - 9300:9300
+        #
+        # le porte sono gia' esposte in ./es/docker-compose.yml
+        #
+        #ports:
+        #    - 9200:9200
+        #    - 9300:9300
 
     php:
         environment:
+            # mysql service ip address
             DB_HOST     : mysql
             DB_USER     : root
             DB_PASSWORD : p@ssw0rd
             DB_DATABASE : ecommerce
             
+            # elastic search service ip address
             ES_HOST     : es
         extends:
             file:    ./php/docker-compose.yml

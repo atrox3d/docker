@@ -12,12 +12,12 @@ class Debug {
 	
 	public static function on() {
 		self::$_debug = true;
-		logger::debug( __CLASS__ . " is ON\n" );
+		#logger::debug( __CLASS__ . " is ON\n" );
 		return __CLASS__;
 	}
 	
 	public static function off() {
-		logger::debug( __CLASS__ . " is OFF\n" );
+		#logger::debug( __CLASS__ . " is OFF\n" );
 		self::$_debug = false;
 		return __CLASS__;
 	}

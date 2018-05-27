@@ -18,6 +18,7 @@ class category implements idocument {
 	
 	public function getjson() {
 		return [
+					'id'		=> $this->id,
 					'id_parent' => $this->id_parent,
 					'name'      => $this->name,
 				];
@@ -54,6 +55,7 @@ class product implements idocument {
 	
 	public function getjson() {
 		return [
+					'id'			=> $this->id,
 					'id_category'	=> $this->id_category,
 					'category_name'	=> $this->category_name,
 					'parent_category_name'	=> $this->parent_category_name,
@@ -93,17 +95,28 @@ class Esapi {
 	 * @param json $jsonDoc optional
 	 * @author Rajneesh Singh <rajneesh.hlm@gmail.com>
 	 */
-	private function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
-		$url	= 'http://' 
-				. ES_HOST 
-				. ':' 
-				. ES_PORT 
-				. '/' 
-				. $index 
-				. '/' 
-				. $type 
-				. '/' 
-				. $queryString;
+	private function esCurlCall(
+									$index,			#	ecommerce
+									$type,          #	category,product
+									$queryString,   #	{id}, _search, ...
+									$requeryType,   #	GET, PUT, POST, DELETE, HEAD
+									$jsonDoc = ''   #	
+								) 
+	{
+		$url	 = 'http://'   ;
+		$url	.= ES_HOST     ;
+		$url	.= ':'         ;
+		$url	.= ES_PORT     ;
+		$url	.= '/'         ;
+		$url	.= $index      ;
+		if($type) {
+			$url	.= '/'         ;
+			$url	.= $type       ;
+		}
+		if($queryString) {
+			$url	.= '/'         ;
+			$url	.= $queryString;
+		}
 				
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,				$url);
@@ -113,30 +126,32 @@ class Esapi {
 		curl_setopt($ch, CURLOPT_FORBID_REUSE, 		0);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST,		$requeryType);
 		curl_setopt($ch, CURLOPT_POSTFIELDS,		$jsonDoc);
-		$response = curl_exec($ch);
+		$jsonresponse = curl_exec($ch);
 		
 		#$decode = json_decode($response, true);
 		debug::on()::variable($url, "\$url/$requeryType", true);
-		debug::on()::variable($jsonDoc, "\$jsonDoc");
-		debug::on()::variable(json_decode($response), "\$response");
+		#debug::on()::variable($jsonDoc, "\$jsonDoc");
+		#debug::on()::variable(json_decode($response), "\$response");
+		$result=json_decode($jsonresponse);
+		debug::log(property_exists($result, 'error')?"ERROR":"SUCCESS"   );
 		debug::off();
-		if( debug::check() ) {
-			if( !isset( json_decode($response, true)['hits'] )) {
-				debug::log("ERROR from ELASTIC SEARCH");
-				debug::log("ES_HOST=".ES_HOST.", ES_PORT=".ES_PORT);
-				debug::log("url=$url");
-				debug::log("response=");
-				debug::variable( json_decode($response) );
-				#echo "</pre>";
-			} else {
-				#debug(json_decode($response, true), "\$response");
-			}
-		}
-		return $response;
+		#if( debug::check() ) {
+		#	if( !isset( json_decode($response, true)['hits'] )) {
+		#		debug::log("ERROR from ELASTIC SEARCH");
+		#		debug::log("ES_HOST=".ES_HOST.", ES_PORT=".ES_PORT);
+		#		debug::log("url=$url");
+		#		debug::log("response=");
+		#		debug::variable( json_decode($response) );
+		#		#echo "</pre>";
+		#	} else {
+		#		#debug(json_decode($response, true), "\$response");
+		#	}
+		#}
+		return $jsonresponse;
 	}
 
 	
-	function update( idocument $document ) {
+	public function update( idocument $document ) {
 		$jsonresponse = $this->esCurlCall(
 								$this->index, 
 								$this->type, 
@@ -148,14 +163,12 @@ class Esapi {
 		debug::variable($jsonresponse, "\$jsonresponse");
 		
 		$response = json_decode( $jsonresponse );
-
-		debug::variable($response, "\$response");
-		debug::variable($response->_shards, "\$response->_shards");
-		
-		return ($response->_shards->successful > 0 && $response->_shards->failed == 0);
+		$result=json_decode($jsonresponse);
+		return (!property_exists($result, 'error'));
+		#return ($response->_shards->successful > 0 && $response->_shards->failed == 0);
 	}
 	
-	function delete( idocument $document ) {
+	public function delete( idocument $document ) {
 		
 		$jsonresponse = $this->esCurlCall(
 							$this->index, 
@@ -166,23 +179,29 @@ class Esapi {
 					);
 
 		$response = json_decode( $jsonresponse );
+		$result=json_decode($jsonresponse);
 
 		#debug::on()::mirror();
 		#debug::variable($response, "\$response");
 		#debug::variable($response->_shards, "\$response->_shards");
 		#debug::off()::mirror();
-		return ($response->_shards->successful > 0 && $response->_shards->failed == 0);
+		return (!property_exists($result, 'error'));
 	}
 	
-	function search($types, $paramarray, &$result, $jsonencode=true) {
-		$_types=null;
+	public function search(
+						#$types, 			# constructor
+						$paramarray, 
+						&$result, 
+						$jsonencode=true
+					) {
+		#$_types=null;
 		$_jsonparams=null;
 		
-		if(isset($types)) {
-			$_types = $types;
-		} else {
-			$_types =  $this->type;
-		}
+		#if(isset($types)) {
+		#	$_types = $types;
+		#} else {
+		#	$_types =  $this->type;
+		#}
 		
 		if($jsonencode) {
 			$_jsonparams = json_encode($paramarray);
@@ -192,7 +211,8 @@ class Esapi {
 		
 		$jsonresponse = $this->esCurlCall(
 											$this->index,
-											$_types,
+											#$_types,
+											$this->type,
 											'_search',
 											'GET',
 											$_jsonparams
@@ -200,7 +220,24 @@ class Esapi {
 		
 		$result=json_decode($jsonresponse);
 		
-		return (property_exists( $result, 'hits' ));
+		return (!property_exists($result, 'error'));
 	}
 	
+	public function deleteindex(&$result) {
+		$jsonresponse = $this->esCurlCall(
+											$this->index,
+											$this->type,
+											null,
+											'DELETE',
+											null
+						);
+		
+		$result=json_decode($jsonresponse);
+		#echo "<pre>\n";
+		#var_dump($jsonresponse);
+		#var_dump($result);
+		#print_r($result);
+
+		return (!property_exists($result, 'error'));
+	}
 }

@@ -18,5 +18,5 @@ services:
             - "./mysql:/var/lib/mysql"
             - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
             - "../share:/mnt/share"
-        #ports:
-        #    - 3306:3306
+        ports:
+            - 3306:3306

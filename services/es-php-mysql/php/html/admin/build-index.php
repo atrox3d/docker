@@ -49,7 +49,8 @@ switch ($indexing) {
             echo "Categories indexing successful";
 		}
 
-        break;
+	break;
+	
     case 'product':
 		$esproduct = new Esapi("ecommerce", "product");
 		
@@ -118,7 +119,22 @@ switch ($indexing) {
 		} else {
             echo "Products indexing successful";
 		}
-        break;
+	break;
+	
+	case 'delete_index':
+		$esapi = new Esapi('ecommerce',null);
+		$result=null;
+		echo "<pre>\n";
+		if($esapi->deleteindex($result)) {
+            echo "Index ecommerce removed successful\n";
+		} else {
+            echo "Errors removing Index ecommerce\n";
+		}
+		echo "</pre>\n";
+		
+		debug::on()::variable($result);
+		
+	break;
 }
 ?>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
@@ -130,6 +146,7 @@ switch ($indexing) {
             <ul >
                 <li><a href="?indexing=category">Build Category Index</a></li>
                 <li><a href="?indexing=product">Build product Index</a></li>
+                <li><a href="?indexing=delete_index">Delete ecommerce Index</a></li>
             </ul>
         </td>
     </tr>
