@@ -16,14 +16,17 @@ if (!is_null($q)) {
         "from" => 0,
         "size" => 20, //get 20 records
         "query" => [
-            "multi_match" => [
-                "query" => $q,
-                "type" => "best_fields",
-                #"type" => "phrase_prefix",
-                "fields" => ["name", "category_name", "parent_category_name"],
-                #"fields" => ["name", ],
-                #"operator" => "or"
-            ]
+            #"multi_match" => [
+            #    "query" => $q,
+            #    "type" => "best_fields",
+            #    #"type" => "phrase_prefix",
+            #    "fields" => ["name", "category_name", "parent_category_name"],
+            #    #"fields" => ["name", ],
+            #    #"operator" => "or"
+            #]
+			"wildcard" => [
+				"name" => "*$q*"
+			],
         ]
     ];
 	
@@ -33,11 +36,6 @@ if (!is_null($q)) {
 		#$jsonDoc = json_encode($params, JSON_PRETTY_PRINT);
 		#$result = esCurlCall('ecommerce', 'product', $queryString, 'GET', $jsonDoc);
 		#$result = json_decode($result);
-		debug::off()
-			::variable($result->hits->total, "\$result->hits->total")
-			::off()
-			::variable(null, "yeeeeeeeee");
-		#echo'<pre>',print_r($result),'</pre>';
 		if( property_exists( $result, 'hits' )) {
 			debug::off()::variable($result->hits, "\$result->hits");
 			if ($result->hits->total > 0) {
@@ -63,6 +61,7 @@ if (!is_null($q)) {
             #country-list li:hover{background:#F0F0F0; cursor: pointer;}
             #search-box{padding: 10px;border: #F0F0F0 1px solid; min-width: 500px;}
             input[type="submit"]{border: 1px solid #e3e3e3; padding: 8px 10px; cursor: pointer;}
+            button{border: 1px solid #e3e3e3; padding: 8px 10px; cursor: pointer;}
 
             .products-list {
                 width: 100%;
@@ -86,10 +85,15 @@ if (!is_null($q)) {
         </style>
     </head>
     <body>
+		<div align=right>
+			<a href="admin/">Admin</a>
+		</div>
         <div class="frmSearch">
             <form method="get" action="index.php">
                 <input type="text" id="search-box" name="q" value="<?php echo($q); ?>" autocomplete="off">
                 <input type="submit" value="Seach">
+                <!-- <button  type="submit" formaction="/index.php?q=ciao">Clear</button> -->
+				<input type="submit" value="reset" id="reset">
                 <div id="suggesstion-box"></div>
             </form>
             
@@ -97,11 +101,23 @@ if (!is_null($q)) {
                 <?php foreach ($results as $r) {  ?>
                     <div class="products-list">    
                         <div class="product-left">
-						<img src="<?php echo file_exists($r->_source->image) ? $r->_source->image : "uploads/product/noimage.png" ?>" width="60" height="60"></div>
-                        <dic class="product-right">
-                            <div class="name"><a href="#"><?php echo($r->_source->name) ?></a></div>
-                            <div class="price">&#x20B9; <?php echo($r->_source->price) ?></div>
-                        </dic>
+							<img src=
+								<?php 
+									echo file_exists($r->_source->image) ? 
+										"\"{$r->_source->image}\"" : 
+										"\"uploads/product/noimage.png\"" 
+								?>
+								width="60" 
+								height="60">
+						</div>
+                        <div class="product-right">
+                            <div class="name">
+								<a href="#"><?php echo($r->_source->name) ?></a>
+							</div>
+                            <div class="price">&#x20B9; 
+								<?php echo($r->_source->price) ?>
+							</div>
+                        </div>
                     </div>     
                 <?php } ?>
             <?php } else {?>
@@ -132,6 +148,15 @@ if (!is_null($q)) {
                         }
                     });
                 });
+					
+                $("#reset").click(function () {
+					//alert(window.location.host);
+					//alert(window.location.origin + window.location.pathname);
+					//window.location.href = window.location.origin + window.location.pathname;
+					$("#search-box").val("");
+                });
+					
+				
             });
 
             function selectSuggesstion(val) {

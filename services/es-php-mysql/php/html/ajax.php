@@ -7,12 +7,16 @@ if (!empty($q)) {
     $queryString = '_search';
     $params = [
         "query" => [
-            "bool" => [
-                "must" => [
-                    "match" => ["name" => $q]
-                ]
-            ]   
-        ]
+        #    "bool" => [
+        #        "must" => [
+        #            "match" => ["name" => $q]
+        #        ]
+        #    ]   
+        #]
+			"wildcard" => [
+				"name" => "*$q*"
+			],
+		]
     ];
    
     #$jsonDoc = json_encode($params);
