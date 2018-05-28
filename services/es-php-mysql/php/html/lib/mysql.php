@@ -158,8 +158,6 @@ function mysql_es_recursiveDelete($id) {
 	} else {
 		echo "OK";
 	}
-	
-	
 }
 
 ?>
