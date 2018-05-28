@@ -58,26 +58,7 @@ class Mysqlapi {
 		return $dump;
 	}
 
-	/*
-	$mysqli = new mysqli(
-							DB_HOST, 
-							DB_USER, 
-							DB_PASSWORD, 
-							"database"
-						);
-
-	$pdo = new PDO(
-					'mysql:host='.DB_HOST, 
-					DB_USER, 
-					DB_PASSWORD
-					);
-	return;
-	*/
-
-	#$con = null;
-
 	private function getcon() {
-		#static $con = null;
 		
 		if(!$this->con) {
 			$this->con = mysqli_connect(
@@ -87,11 +68,15 @@ class Mysqlapi {
 						);
 						
 			if (!$this->con) {
-				die("Opps some thing went wrong: \n" . $this->dump_dbparams());
+				echo ("Oops some thing went wrong: \n";
+				echo mysqli_connect_errno() . ", " , mysqli_connect_error() . "\n";
+				echo $this->dump_dbparams();
+				die();
 			} else {
 				if(!mysqli_select_db($this->con, $this->DB_DATABASE))	{
-					$this->dump_dbparams();
-					die("no db : \n" . $this->dump_dbparams());
+					echo("error selecting db : {$this->DATABASE}\n";
+					echo $this->dump_dbparams();
+					die();
 				}
 			}
 		}
@@ -104,13 +89,11 @@ class Mysqlapi {
 	 */
 
 	public function getResult($query) {
-		#global $con;
-		$con = $this->getcon();
 		#
 		debug::variable($this->con, "\$con");
 		debug::variable($query, "\$query");
 		#
-		$query = mysqli_query($this->con, $query);
+		$query = mysqli_query($this->getcon(), $query);
 		#
 		debug::variable($query, "\$query");
 		#
@@ -161,7 +144,7 @@ class Mysqlapi {
 
 	public function recursiveCategoryDelete($id) {
 		#global $con;
-		$con = $this->getcon();
+		#$con = $this->getcon();
 		$result=mysqli_query($this->getcon(), "SELECT * FROM category WHERE id_parent='$id'");
 		
 		# elimina categorie figlie
@@ -184,8 +167,5 @@ class Mysqlapi {
 		} else {
 			echo "OK";
 		}
-		
-		
 	}
 }
-?>
