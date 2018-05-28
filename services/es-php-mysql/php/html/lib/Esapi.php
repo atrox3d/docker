@@ -1,4 +1,6 @@
 <?php
+define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
+define('ES_PORT', 9200);
 
 
 interface idocument {
