@@ -12,6 +12,9 @@ services:
             # serve la creazione in locale dei path dati
             - "~/docker_data/mysql:/var/lib/mysql"
 
+        #
+        # le porte sono gia' esposte in ./mysql/docker-compose.yml
+        #
         #ports:
         #    - 3306:3306
       
@@ -58,3 +61,10 @@ services:
         extends:
             file:    ./php/docker-compose.yml
             service: php
+
+        #
+        # le porte sono gia' esposte in ./php/docker-compose.yml
+        #
+        #ports:
+        #    - 8080:80
+            

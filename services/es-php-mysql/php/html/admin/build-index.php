@@ -89,6 +89,9 @@ switch ($indexing) {
 			$quantity		= $prod['quantity'];
 			$description	= htmlentities($prod['description']);
 			$image			= 'uploads/product/'.$prod['image'];
+			$date_add		= $prod['date_add'];
+			$date_upd		= $prod['date_upd'];
+			
 			
 			$objprod	= new product(
 										$id,
@@ -99,7 +102,9 @@ switch ($indexing) {
 										$price,
 										$quantity,
 										$description,
-										$image
+										$image,
+										$date_add,
+										$date_upd
 						);
 			#if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
 			if( !$esproduct->update($objprod)) {
