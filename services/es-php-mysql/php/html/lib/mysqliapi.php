@@ -158,10 +158,10 @@ class Mysqlapi {
 		
 		#IoC?
 		$escategory = new Esapi("ecommerce", "category");
-		$objcat = new category($id, null, null);
+		#$objcat = new category($id, null, null);
 		echo "updating ES...";
 		#if( !esCRUDcategory("DELETE", $id, null, null, $result) ) {
-		if(!$escategory->delete($objcat)) {
+		if(!$escategory->delete($id)) {
 			echo "ERRORS:\n";
 			echo $result;
 		} else {

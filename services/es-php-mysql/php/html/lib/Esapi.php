@@ -188,12 +188,12 @@ class Esapi {
 		#return ($response->_shards->successful > 0 && $response->_shards->failed == 0);
 	}
 	
-	public function delete( idocument $document ) {
+	public function delete( $id ) {
 		
 		$jsonresponse = $this->esCurlCall(
 							$this->index, 
 							$this->type, 
-							$document->getid(), 
+							$id, 
 							'DELETE', 
 							json_encode($document->getjson())
 					);
