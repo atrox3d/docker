@@ -142,30 +142,34 @@ class Mysqlapi {
 		return true;
 	}
 
+	
 	public function recursiveCategoryDelete($id) {
-		#global $con;
-		#$con = $this->getcon();
-		$result=mysqli_query($this->getcon(), "SELECT * FROM category WHERE id_parent='$id'");
-		
-		# elimina categorie figlie
-		if (mysqli_num_rows($result)>0) {
-			 while($current=mysqli_fetch_array($result)) {
-				  $this->recursiveDelete($current['id']);
-			 }
-		}
-		#elimina categoria
-		mysqli_query($this->getcon(), "DELETE FROM category WHERE id='$id'");
-		
-		#IoC?
-		$escategory = new Esapi("ecommerce", "category");
-		#$objcat = new category($id, null, null);
-		echo "updating ES...";
-		#if( !esCRUDcategory("DELETE", $id, null, null, $result) ) {
-		if(!$escategory->delete($id)) {
-			echo "ERRORS:\n";
-			echo $result;
-		} else {
-			echo "OK";
+
+		if($result=mysqli_query($this->getcon(), "SELECT * FROM category WHERE id_parent='$id'")) {
+
+			# elimina categorie figlie
+			if (mysqli_num_rows($result)>0) {
+				 while($current=mysqli_fetch_array($result)) {
+					  $this->recursiveDelete($current['id']);
+				 }
+			}
+			#elimina categoria
+			echo "updating MySQL...";
+			if(!mysqli_query($this->getcon(), "DELETE FROM category WHERE id='$id'")) {
+				echo "error deleting category id:$id from MySQL\n";
+			} else {
+				echo "Success\n";
+			}
+			
+			#IoC?
+			echo "updating ES...";
+			$escategory = new Esapi("ecommerce", "category");
+			if(!$escategory->delete($id)) {
+				echo "error deleting category id:$id from ES\n";
+			} else {
+				echo "Success\n";
+			}
 		}
 	}
 }
+
