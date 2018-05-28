@@ -30,7 +30,7 @@ require_once('lib.php');
 #$escategory = new esapi("ecommerce", "category");
 
 
-function dump_dbparams() {
+function mysql_dump_dbparams() {
 	echo "<pre>";
 	#echo "APP_DBHOST   : ".APP_DBHOST."\n";
 	echo "DB_HOST    : ".DB_HOST."\n";
@@ -55,25 +55,35 @@ $pdo = new PDO(
 				);
 return;
 */
-$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
-if (!$con) {
-	dump_dbparams();
-    die("Opps some thing went wrong");
-} else {
-    if(!mysqli_select_db($con, DB_DATABASE) )	{
-		dump_dbparams();
-		die("no db ".DB_DATABASE);
-	}
-}
 
+#$con = null;
+
+function mysql_getcon() {
+	static $con = null;
+	
+	if(!$con) {
+		$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+		if (!$con) {
+			mysql_dump_dbparams();
+			die("Opps some thing went wrong");
+		} else {
+			if(!mysqli_select_db($con, DB_DATABASE) )	{
+				mysql_dump_dbparams();
+				die("no db ".DB_DATABASE);
+			}
+		}
+	}
+	return $con;
+}
 /*
  * get results from query
  * @param string $query required
  * @author Rajneesh Singh <rajneesh.hlm@gmail.com
  */
 
-function getResult($query) {
-	global $con;
+function mysql_getResult($query) {
+	#global $con;
+	$con = mysql_getcon();
 	#
 	debug::variable($con, "\$con");
 	debug::variable($query, "\$query");
@@ -137,6 +147,7 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
 	echo "please update you code, " . __function__ . " is no more available\n";
 	var_dump(debug_backtrace());
 	exit;
+	/*
     $url = 'http://' . ES_HOST . ':' . ES_PORT . '/' . $index . '/' . $type . '/' . $queryString;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -165,11 +176,13 @@ function esCurlCall($index, $type, $queryString, $requeryType, $jsonDoc = '') {
 		}
 	}
 		return $response;
+	*/
 }
 
 
-function categoryListSelect($id_parent = 0, $space = '') {
-	global $con;
+function mysql_categoryListSelect($id_parent = 0, $space = '') {
+	#global $con;
+	$con = mysql_getcon();
     #$q = "SELECT * FROM category WHERE id_parent = '" . $id_parent . "' ";
     $q = "SELECT * FROM category WHERE id_parent = '$id_parent' ";
     #$r = mysqli_query($con, $q) or die(mysql_error());
@@ -194,18 +207,18 @@ function categoryListSelect($id_parent = 0, $space = '') {
             $cid = $row['id'];
             echo "<option value=" . $cid . ">" . $space . $row['name'] . "</option>";
 
-            categoryListSelect($cid, $space);
+            mysql_categoryListSelect($cid, $space);
         }
     }
 	return true;
 }
 
-function recursiveDelete($id) {
+function mysql_es_recursiveDelete($id) {
 	global $con;
     $result=mysqli_query($con, "SELECT * FROM category WHERE id_parent='$id'");
     if (mysqli_num_rows($result)>0) {
          while($current=mysqli_fetch_array($result)) {
-              recursiveDelete($current['id']);
+              mysql_es_recursiveDelete($current['id']);
          }
     }
     mysqli_query($con, "DELETE FROM category WHERE id='$id'");

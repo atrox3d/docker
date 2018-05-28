@@ -3,12 +3,14 @@ include('../lib/Settings.php');
 
 if(isset($_GET['action']) && $_GET['action'] == 'del'){
 	$sql = "DELETE FROM product WHERE id = '".$_GET['id']."' ";
+	
+	$con = mysql_getcon();
 	mysqli_query($con, $sql);
 	header('location:product-list.php');
 }
 
 $query = "SELECT * FROM product";
-$results =  getResult($query);
+$results =  mysql_getResult($query);
 //echo'<pre>',print_r($results), '</pre>';
 ?>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">

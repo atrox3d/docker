@@ -31,6 +31,8 @@ if (isset($_POST['add'])) {
             date_upd = '" . $currentDate . "' ";
 		debug::variable($sql, "\$sql");
 		
+		$con = mysql_getcon();
+		
         if( mysqli_query($con, $sql) ) {
 			$id = mysqli_insert_id($con);
 			debug::variable($id, "\$id");
@@ -78,7 +80,7 @@ if (isset($_POST['add'])) {
                         <td>
                             <select name="id_parent">
                                 <option value="">-Select-</option>
-                                <?php categoryListSelect();   ?>
+                                <?php mysql_categoryListSelect();   ?>
                             </select>
                         </td>
                     </tr>

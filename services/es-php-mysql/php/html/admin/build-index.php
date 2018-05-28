@@ -8,7 +8,7 @@ switch ($indexing) {
     case 'category':
 		#echo "Working... ";
         $queryCat = "SELECT * FROM category";
-        $categories = getResult($queryCat);
+        $categories = mysql_getResult($queryCat);
 		$result=array();
 		$errors=array();
 		$escategory = new Esapi("ecommerce", "category");
@@ -59,7 +59,7 @@ switch ($indexing) {
         #$queryProduct = "SELECT p.*, c.name AS category_name  FROM product AS p
         #INNER JOIN category AS c ON c.id = p.id_category ";
         $queryProduct = "SELECT p.*, c.name AS category_name, pc.name AS parent_category_name  FROM product AS p INNER JOIN category AS c ON c.id = p.id_category LEFT JOIN category AS pc on c.id_parent = pc.id";
-        $product = getResult($queryProduct);
+        $product = mysql_getResult($queryProduct);
         #echo'<pre>', print_r($product), '</pre>';die;
 		$errors = array();
         foreach ($product as $prod) {
@@ -96,7 +96,7 @@ switch ($indexing) {
 			$objprod	= new product(
 										$id,
 										$id_category,
-										$category_name,
+										$category_name,			
 										$parent_category_name,
 										$name,
 										$price,

@@ -31,6 +31,8 @@ if(isset($_POST['add'])){
             date_upd = '"		. $currentDate . "'
 			 ";
 		
+		$con = mysql_getcon();
+		
 		if(mysqli_query($con, $sql)) {
 			$id = mysqli_insert_id($con);
 			
@@ -64,7 +66,7 @@ if(isset($_POST['add'])){
 	
 }
 $query = "SELECT * FROM category";
-$categories =  getResult($query);
+$categories =  mysql_getResult($query);
 ?>
 
 </<!DOCTYPE html>
@@ -83,7 +85,7 @@ $categories =  getResult($query);
 						<td>
 							<select name="id_category">
                                 <option value="">-Select-</option>
-                                <?php categoryListSelect();   ?>
+                                <?php mysql_categoryListSelect();   ?>
                             </select>
 						</td>
 					</tr>

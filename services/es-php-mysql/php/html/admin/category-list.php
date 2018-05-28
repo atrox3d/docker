@@ -11,7 +11,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'del') {
                         WHERE id_parent = '" . $_GET['id'] . "'
                     )";
     */
-    recursiveDelete($_GET['id']);
+    mysql_es_recursiveDelete($_GET['id']);
     #mysqli_query($con, $sql);
     //header('location:category-list.php');
 }
@@ -19,7 +19,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'del') {
 $parent_id = isset($_REQUEST['parent_id']) ? (int)$_REQUEST['parent_id'] : 0;
 
 $query = "SELECT * FROM category WHERE id_parent = '".$parent_id."' ";
-$results = getResult($query);
+$results = mysql_getResult($query);
 //echo'<pre>',print_r($results), '</pre>';
 
 
