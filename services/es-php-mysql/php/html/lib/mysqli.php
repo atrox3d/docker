@@ -93,9 +93,9 @@ function mysql_getResult($query) {
 	debug::variable($query, "\$query");
 	#
     $new_array = array();
-    while ($row = mysqli_fetch_assoc($query)) {
+    while ($row = mysqli_fetch_array($query)) {
 		#
-		debug::variable($row, "\$row");
+		debug::on()::variable($row, "mysql_getResult::mysqli_fetch_array::\$row")::off();
 		#
         $new_array[] = $row;
     }
@@ -126,7 +126,8 @@ function mysql_categoryListSelect($id_parent = 0, $space = '') {
     }
     if ($count > 0) {
 
-        while ($row = mysqli_fetch_array($r)) {
+        while ($row = mysqli_fetch_assoc($r)) {
+			debug::on()::variable($row, "mysql_categoryListSelect::mysqli_fetch_assoc::\$row")::off();
             $cid = $row['id'];
             echo "<option value=" . $cid . ">" . $space . $row['name'] . "</option>";
 
@@ -136,14 +137,15 @@ function mysql_categoryListSelect($id_parent = 0, $space = '') {
 	return true;
 }
 
-function mysql_es_recursiveDelete($id) {
+function mysql_es_categoryRecursiveDelete($id) {
 	#global $con;
 	$con = mysql_getcon();
     $result=mysqli_query($con, "SELECT * FROM category WHERE id_parent='$id'");
 	
     if (mysqli_num_rows($result)>0) {
-         while($current=mysqli_fetch_array($result)) {
-              mysql_es_recursiveDelete($current['id']);
+         while($current=mysqli_fetch_assoc($result)) {
+			debug::on()::variable($row, "mysql_es_categoryRecursiveDelete::mysqli_fetch_assoc::\$row")::off();
+			mysql_es_CategoryrecursiveDelete($current['id']);
          }
     }
     mysqli_query($con, "DELETE FROM category WHERE id='$id'");

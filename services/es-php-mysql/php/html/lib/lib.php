@@ -18,3 +18,35 @@ require_once(__DIR__.'/Debug.php');
 require_once(__DIR__.'/Logger.php');
 require_once(__DIR__.'/Esapi.php');
 require_once(__DIR__.'/mysqli.php');
+
+
+class Html
+{
+	public static function pre($string, $echo=true) 
+	{
+		$output = "";
+		switch($string) {
+			case true:
+				$output = "<PRE>\n";
+			break;
+			
+			case false:
+				$output = "</PRE>\n";
+			break;
+			
+			default:
+				$output = "<PRE>\n$string</PRE>\n";
+			break;
+		}
+		
+		if($echo) echo $output;
+		
+		return $output;
+	}
+}
+
+class Util
+{
+	public Html = 
+
+}

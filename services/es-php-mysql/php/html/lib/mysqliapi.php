@@ -21,8 +21,8 @@ define('DB_PASSWORD', getenv( "DB_PASSWORD" )); # docker-compose.yml
 define('DB_DATABASE', getenv( "DB_DATABASE" )); # docker-compose.yml
 
 
-class Mysqlapi {
-
+class Mysqliapi 
+{
 	private $_HOST;
 	private $_USER;
 	private $_PASSWORD;
@@ -30,7 +30,7 @@ class Mysqlapi {
 	
 	private $con;
 	
-	private $instance;	# in caso di singleton
+	#private $instance;	# in caso di singleton
 
 	public function __construct(
 									$HOST,
@@ -39,15 +39,15 @@ class Mysqlapi {
 									$DATABASE
 								)
 	{
-		$$this->HOST		= $HOST;
-		$$this->USER		= $USER;
-		$$this->PASSWORD	= $PASSWORD;
-		$$this->DATABASE	= $DATABASE;
+		$this->HOST		= $HOST;
+		$this->USER		= $USER;
+		$this->PASSWORD	= $PASSWORD;
+		$this->DATABASE	= $DATABASE;
 		
 	};
-	
-	public function dump_dbparams() {
-		
+	#
+	public function dump_dbparams() 
+	{
 		$dump  = "<pre>";
 		$dump .= "DB_HOST    : {$this->HOST}\n";
 		$dump .= "DB_USER    : {$this->USER}\n";
@@ -57,17 +57,17 @@ class Mysqlapi {
 		
 		return $dump;
 	}
-
-	private function getcon() {
+	#
+	private function getcon() 
+	{
 		
 		if(!$this->con) {
-			$this->con = mysqli_connect(
+			if($this->con = mysqli_connect(
 											$this->DB_HOST, 
 											$this->DB_USER, 
 											$this->DB_PASSWORD
 						);
-						
-			if (!$this->con) {
+				)	{
 				echo ("Oops some thing went wrong: \n";
 				echo mysqli_connect_errno() . ", " , mysqli_connect_error() . "\n";
 				echo $this->dump_dbparams();
@@ -87,70 +87,66 @@ class Mysqlapi {
 	 * @param string $query required
 	 * @author Rajneesh Singh <rajneesh.hlm@gmail.com
 	 */
-
-	public function getResult($query) {
+	public function getResult($query) 
+	{
 		#
 		debug::variable($this->con, "\$con");
 		debug::variable($query, "\$query");
 		#
-		$query = mysqli_query($this->getcon(), $query);
+		$result = mysqli_query($this->getcon(), $query);
 		#
 		debug::variable($query, "\$query");
 		#
 		$new_array = array();
-		while ($row = mysqli_fetch_assoc($query)) {
+		#
+		# non conoscendo i campi della query (name collision) serve  mysqli_fetch_array
+		#
+		while ($row = mysqli_fetch_array($result)) {
 			#
 			debug::variable($row, "\$row");
 			#
 			$new_array[] = $row;
 		}
+		
 		return $new_array;
 	}
-
-
-	public function categoryListSelect($id_parent = 0, $space = '') {
-		#global $con;
+	#
+	public function categoryListSelect($id_parent = 0, $space = '') 
+	{
 		$con = $this->getcon();
-		#$q = "SELECT * FROM category WHERE id_parent = '" . $id_parent . "' ";
 		$q = "SELECT * FROM category WHERE id_parent = '$id_parent' ";
-		#$r = mysqli_query($con, $q) or die(mysql_error());
-		$r = mysqli_query($this->getcon(), $q);
-		
-		if( !$r ) {
+
+		if(!$result = mysqli_query($this->getcon(), $q) ) {
 			$error = mysqli_error($this->getcon());
 			echo "<option >ERROR: $error </option>";
 			return false;
 		}
 		
-		$count = mysqli_num_rows($r);
-		#debug( $count, "\$count", true );
-
-		if ($id_parent == 0) {
-			$space = '';
-		} else {
-			$space .="&nbsp;-&nbsp;";
-		}
-		if ($count > 0) {
-
-			while ($row = mysqli_fetch_array($r)) {
-				$cid = $row['id'];
-				echo "<option value=" . $cid . ">" . $space . $row['name'] . "</option>";
-
-				$this->categoryListSelect($cid, $space);
+		if($count = mysqli_num_rows($r)) {
+			if ($id_parent == 0) {
+				$space = '';
+			} else {
+				$space .="&nbsp;-&nbsp;";
+			}
+			if ($count > 0) {
+				while ($row = mysqli_fetch_assoc($r)) {
+					$cid = $row['id'];
+					echo "<option value=" . $cid . ">" . $space . $row['name'] . "</option>";
+					$this->categoryListSelect($cid, $space);
+				}
 			}
 		}
 		return true;
 	}
-
-	
-	public function recursiveCategoryDelete($id) {
+	#
+	public function categoryRecursiveDelete($id) {
 
 		if($result=mysqli_query($this->getcon(), "SELECT * FROM category WHERE id_parent='$id'")) {
 
 			# elimina categorie figlie
 			if (mysqli_num_rows($result)>0) {
-				 while($current=mysqli_fetch_array($result)) {
-					  $this->recursiveDelete($current['id']);
+				 while($current=mysqli_fetch_assoc($result)) {
+					  $this->categoryRecursiveDelete($current['id']);
 				 }
 			}
 			#elimina categoria

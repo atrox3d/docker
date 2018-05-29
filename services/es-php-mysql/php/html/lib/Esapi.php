@@ -195,7 +195,7 @@ class Esapi {
 							$this->type, 
 							$id, 
 							'DELETE', 
-							json_encode($document->getjson())
+							null
 					);
 
 		$response = json_decode( $jsonresponse );

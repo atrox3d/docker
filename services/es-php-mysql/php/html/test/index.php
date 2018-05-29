@@ -21,6 +21,7 @@ echo	"<pre>"
 		<ul>
 			<li><a href="debug.php" >debug</a></li>
 			<li><a href="debug_backtrace.php" >debug_backtrace</a></li>
+			<li><a href="functions.php" >functions</a></li>
 		</ul>
 	</body>
 </html>

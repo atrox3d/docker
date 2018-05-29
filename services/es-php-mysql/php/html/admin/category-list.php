@@ -11,7 +11,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'del') {
                         WHERE id_parent = '" . $_GET['id'] . "'
                     )";
     */
-    mysql_es_recursiveDelete($_GET['id']);
+    mysql_es_categoryRecursiveDelete($_GET['id']);
     #mysqli_query($con, $sql);
     //header('location:category-list.php');
 }
