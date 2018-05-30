@@ -1,6 +1,7 @@
 <?php
+require_once("../lib/lib.php");
 
-
+/*
 echo	"<pre>"
 			."["
 			.__DIR__
@@ -9,7 +10,15 @@ echo	"<pre>"
 			.__FILE__
 			."]"
 		."</pre>\n";
-
+*/
+Html::pre(
+			"["
+			.__DIR__
+			."]"
+			."["
+			.__FILE__
+			."]"
+);
 ?>
 
 

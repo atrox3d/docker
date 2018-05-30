@@ -25,18 +25,13 @@ class Html
 	public static function pre($string, $echo=true) 
 	{
 		$output = "";
-		switch($string) {
-			case true:
-				$output = "<PRE>\n";
-			break;
-			
-			case false:
-				$output = "</PRE>\n";
-			break;
-			
-			default:
-				$output = "<PRE>\n$string</PRE>\n";
-			break;
+		
+		if($string===true) {
+			$output = "<PRE>\n";
+		} elseif($string===false) {
+			$output = "</PRE>\n";
+		} else {
+			$output = "<PRE>\n$string</PRE>\n";
 		}
 		
 		if($echo) echo $output;
