@@ -26,17 +26,17 @@ class Mysqliapi
 	private $_HOST;
 	private $_USER;
 	private $_PASSWORD;
-	private $_DATABASE
+	private $_DATABASE;
 	
 	private $con;
 	
 	#private $instance;	# in caso di singleton
 
 	public function __construct(
-									$HOST,
-									$USER,
-									$PASSWORD,
-									$DATABASE
+									$HOST		= DB_HOST,
+									$USER		= DB_USER,
+									$PASSWORD	= DB_PASSWORD,
+									$DATABASE	= DB_DATABASE
 								)
 	{
 		$this->HOST		= $HOST;
@@ -44,37 +44,34 @@ class Mysqliapi
 		$this->PASSWORD	= $PASSWORD;
 		$this->DATABASE	= $DATABASE;
 		
-	};
+	}
 	#
-	public function dump_dbparams() 
+	public function __toString()
 	{
-		$dump  = "<pre>";
-		$dump .= "DB_HOST    : {$this->HOST}\n";
-		$dump .= "DB_USER    : {$this->USER}\n";
-		$dump .= "DB_PASSWORD: {$this->PASSWORD}\n";
-		$dump .= "DB_DATABASE: {$this->DATABASE}\n";
-		$dump .= "</pre>";
+		$dump .= "DB_HOST    : {$this->HOST}"		. PHP_EOL;
+		$dump .= "DB_USER    : {$this->USER}"		. PHP_EOL;
+		$dump .= "DB_PASSWORD: {$this->PASSWORD}"	. PHP_EOL;
+		$dump .= "DB_DATABASE: {$this->DATABASE}"	. PHP_EOL;
 		
 		return $dump;
 	}
 	#
-	private function getcon() 
+	private function getcon()
 	{
-		
 		if(!$this->con) {
 			if($this->con = mysqli_connect(
 											$this->DB_HOST, 
 											$this->DB_USER, 
 											$this->DB_PASSWORD
-						);
+						)
 				)	{
-				echo ("Oops some thing went wrong: \n";
+				echo "Oops some thing went wrong: \n";
 				echo mysqli_connect_errno() . ", " , mysqli_connect_error() . "\n";
 				echo $this->dump_dbparams();
 				die();
 			} else {
 				if(!mysqli_select_db($this->con, $this->DB_DATABASE))	{
-					echo("error selecting db : {$this->DATABASE}\n";
+					echo "error selecting db : {$this->DATABASE}\n";
 					echo $this->dump_dbparams();
 					die();
 				}

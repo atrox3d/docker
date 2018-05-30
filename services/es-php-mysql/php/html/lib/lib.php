@@ -47,6 +47,10 @@ class Html
 
 class Util
 {
-	public Html = 
-
+	public static $prop = "hello from util::prop";
+	
+	public static function Html()
+	{
+		return Html::class;
+	}
 }
