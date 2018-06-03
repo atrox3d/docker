@@ -18,13 +18,13 @@ Util::Html()::pre(true);
 if($result=yesorno(true)) {
 	echo "very good\nif(var=exp){}\n";
 	#var_dump($result);
-	#Logger::mirror()::variable(Logger::INFO, $result, "\$result");
+	Logger::mirror(true)::variable(Logger::INFO, $result?"true":"false", "\$result");
 }
 
 if(!$result=yesorno(false)) {
 	echo "very good again\nif(!var=exp){}\n";
 	#var_dump($result);
-	#Logger::mirror()::variable(Logger::INFO, $result, "\$result");
+	Logger::mirror(true)::variable(Logger::INFO, $result?"true":"false", "\$result");
 }
 
 
