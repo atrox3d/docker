@@ -21,6 +21,29 @@ require_once(__DIR__.'/mysqliapi.class.php');
 require_once(__DIR__.'/pdodb.class.php');
 require_once(__DIR__.'/mysqli.php');
 
+function categoryListSelect(Pdodb $db, $id_parent = 0, $space = '') {
+
+		$q = "SELECT * FROM category WHERE id_parent = :id_parent ";
+		$db->query($q)->bind(":id_parent", $id_parent);
+		$r = $db->resultset();
+		$count = $db->rowCount();
+
+    if ($id_parent == 0) {
+        $space = '';
+    } else {
+        $space .="&nbsp;-&nbsp;";
+    }
+    if ($count > 0) {
+		foreach($r as $row) {
+            $cid = $row['id'];
+            echo "<option value=" . $cid . ">" . $space . $row['name'] . "</option>";
+
+            categoryListSelect($db, $cid, $space );
+        }
+    }
+	return true;
+}
+
 
 class Html
 {
