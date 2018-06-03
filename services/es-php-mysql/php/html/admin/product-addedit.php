@@ -102,8 +102,6 @@ if(isset($_POST['add'])){
     }
 }
 
-#$query = "SELECT * FROM category";
-#$categories =  mysql_getResult($query);
 ?>
 
 </<!DOCTYPE html>
