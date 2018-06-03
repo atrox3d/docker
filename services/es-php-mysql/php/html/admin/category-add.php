@@ -1,5 +1,31 @@
 <?php
 include('../lib/Settings.php');
+
+
+function categoryListSelect(Pdodb $db, $id_parent = 0, $space = '') {
+
+		$q = "SELECT * FROM category WHERE id_parent = :id_parent ";
+		$db->query($q)->bind(":id_parent", $id_parent);
+		$r = $db->resultset();
+		$count = $db->rowCount();
+
+    if ($id_parent == 0) {
+        $space = '';
+    } else {
+        $space .="&nbsp;-&nbsp;";
+    }
+    if ($count > 0) {
+		foreach($r as $row) {
+            $cid = $row['id'];
+            echo "<option value=" . $cid . ">" . $space . $row['name'] . "</option>";
+
+            categoryListSelect($db, $cid, $space );
+        }
+    }
+	return true;
+}
+
+
 #esapi ok
 $escategory = new esapi(ES_HOST, ES_PORT, "ecommerce", "category");
 
@@ -23,38 +49,47 @@ if (isset($_POST['add'])) {
     if (empty($errors) == true) {
         move_uploaded_file($fileTmp, $uploadDir . $imageName);
         
-        $sql = "INSERT INTO category SET 
-            id_parent = '" . $id_parent . "',
-            name = '" . $name . "',
-            image = '" . $imageName . "',
-            date_add = '" . $currentDate . "',
-            date_upd = '" . $currentDate . "' ";
-		debug::variable($sql, "\$sql");
-		
-		$con = mysql_getcon();
-		
-        if( mysqli_query($con, $sql) ) {
-			$id = mysqli_insert_id($con);
-			debug::variable($id, "\$id");
-			//header('location:category-list.php');
-			#
-			#
-			#
-			debug::log("updating ES...");
-			$objcat = new category($id, $id_parent, $name);
-			if( !$escategory->update($objcat)) {
-			#if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
-				debug::log("ERRORS:\n");
-				#echo $result;
-			} else {
-				debug::log("OK");
-			}
-			#
-			#
-			#
-		} else {
-			echo mysqli_error($con);
+		try {
+			$pdodb = new Pdodb( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+
+			$sql = "INSERT INTO category SET 
+					id_parent = :id_parent,
+					name = :name,
+					image = :imageName,
+					date_add = :currentDate,
+					date_upd = :currentDate";
+					
+			$pdodb->query($sql);
+			$pdodb->bind(":id_parent",		$id_parent);
+			$pdodb->bind(":name",			$name);
+			$pdodb->bind(":imageName",		$imageName);
+			$pdodb->bind(":currentDate",	$currentDate);
+			$pdodb->bind(":currentDate",	$currentDate);
+			
+			$pdodb->execute();
+			
+			$id = $pdodb->lastInsertId();
 		}
+		catch(Exception $e) {
+			$pdodb->pdoexception($e);
+		}
+		//header('location:category-list.php');
+		#
+		#
+		#
+		debug::log("updating ES...");
+		$objcat = new category($id, $id_parent, $name);
+		if( !$escategory->update($objcat)) {
+		#if( !esCRUDcategory("PUT", $id, $id_parent, $name, $result) ) {
+			debug::log("ERRORS:\n");
+			#echo $result;
+		} else {
+			debug::log("OK");
+		}
+		#
+		#
+		#
+		#}
 
     } else {
         print_r($errors);
@@ -78,9 +113,20 @@ if (isset($_POST['add'])) {
                     <tr>
                         <td>Parent Category</td>
                         <td>
+                            <?php
+								try {
+									$pdodb = new Pdodb( DB_HOST , DB_USER, DB_PASSWORD, DB_DATABASE);
+							?>
                             <select name="id_parent">
-                                <option value="">-Select-</option>
-                                <?php mysql_categoryListSelect();   ?>
+								<option value="">-Select-</option>
+							<?php
+									/*mysql_*/ categoryListSelect($pdodb);   
+									}
+									catch(Exception $e) {
+										$pdodb->pdoexception($e);
+										die("error : " .$e->getmessage());
+									}
+							?>
                             </select>
                         </td>
                     </tr>

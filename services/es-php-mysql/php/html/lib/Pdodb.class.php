@@ -113,7 +113,6 @@ class Pdodb
 	{
 		$this->execute();
 		return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
-		return null;
 	}
 	
 	public function single()
