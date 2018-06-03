@@ -24,7 +24,7 @@ if (!empty($q)) {
     #$result = esCurlCall('ecommerce', 'category,product', $queryString, 'GET', $jsonDoc);
     #$result = json_decode($result);
     #echo'<pre>',print_r($result),'</pre>';
-	$esquery = new Esapi('ecommerce', 'category,product');
+	$esquery = new Esapi(ES_HOST, ES_PORT, 'ecommerce', 'category,product');
 	$result = null;
 	if($esquery->search( /*null,*/ $params, $result)) {
 		if ($result->hits->total > 0) {

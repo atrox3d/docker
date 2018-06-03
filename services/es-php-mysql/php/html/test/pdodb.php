@@ -33,7 +33,12 @@ Html::pre(
 		<div>
 			<?php
 				try {
-					$database = new pdodb();
+					$database = new pdodb(
+											DB_HOST,
+											DB_USER,
+											DB_PASSWORD,
+											DB_DATABASE
+										);
 					$database->query("describe product");
 					Html::pre(true);
 					if($resultset=$database->resultset()) {

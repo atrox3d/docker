@@ -1,7 +1,7 @@
 <?php
 include('../lib/Settings.php');
 #esapi ok
-$escategory = new esapi("ecommerce", "category");
+$escategory = new esapi(ES_HOST, ES_PORT, "ecommerce", "category");
 
 if (isset($_POST['add'])) {
 	#global $con;

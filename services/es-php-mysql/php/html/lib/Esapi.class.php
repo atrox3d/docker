@@ -1,6 +1,6 @@
 <?php
-define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
-define('ES_PORT', 9200);
+#define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
+#define('ES_PORT', 9200);
 
 
 interface idocument {
@@ -95,13 +95,15 @@ class product implements idocument {
 
 
 class Esapi {
-	private $host=ES_HOST;
-	private $port=ES_PORT;
+	private $host;
+	private $port;
 	
 	private $index;
 	private $type;
 	
-	public function __construct($index, $type) {
+	public function __construct($host, $port, $index, $type) {
+		$this->host = $host;
+		$this->port = $port;
 		$this->index = $index;
 		$this->type  = $type;
 	}
@@ -124,9 +126,9 @@ class Esapi {
 								) 
 	{
 		$url	 = 'http://'   ;
-		$url	.= ES_HOST     ;
+		$url	.= $this->host     ;
 		$url	.= ':'         ;
-		$url	.= ES_PORT     ;
+		$url	.= $this->port     ;
 		$url	.= '/'         ;
 		$url	.= $index      ;
 		if($type) {

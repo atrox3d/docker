@@ -44,7 +44,7 @@ if (!is_null($q)) {
 		#*/
     ];
 	
-	$esquery = new Esapi('ecommerce', 'product');
+	$esquery = new Esapi(ES_HOST, ES_PORT, 'ecommerce', 'product');
 	$result = null;
 	if($esquery->search( /*null,*/ $params, $result)) {
 		#$jsonDoc = json_encode($params, JSON_PRETTY_PRINT);

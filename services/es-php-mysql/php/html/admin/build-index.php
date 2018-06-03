@@ -11,7 +11,7 @@ switch ($indexing) {
         $categories = mysql_getResult($queryCat);
 		$result=array();
 		$errors=array();
-		$escategory = new Esapi("ecommerce", "category");
+		$escategory = new Esapi(ES_HOST, ES_PORT, "ecommerce", "category");
         foreach ($categories as $cat) {
 			/*
             $params = [
@@ -54,7 +54,7 @@ switch ($indexing) {
 	break;
 	
     case 'product':
-		$esproduct = new Esapi("ecommerce", "product");
+		$esproduct = new Esapi(ES_HOST, ES_PORT, "ecommerce", "product");
 		
         #$queryProduct = "SELECT p.*, c.name AS category_name  FROM product AS p
         #INNER JOIN category AS c ON c.id = p.id_category ";
@@ -129,7 +129,7 @@ switch ($indexing) {
 	break;
 	
 	case 'delete_index':
-		$esapi = new Esapi('ecommerce',null);
+		$esapi = new Esapi(ES_HOST, ES_PORT, 'ecommerce',null);
 		$result=null;
 		echo "<pre>\n";
 		if($esapi->deleteindex($result)) {

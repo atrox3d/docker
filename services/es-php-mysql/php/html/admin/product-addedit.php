@@ -36,7 +36,7 @@ if(isset($_POST['add'])){
 		if(mysqli_query($con, $sql)) {
 			$id = mysqli_insert_id($con);
 			
-			$esproduct = new Esapi('ecommerce', 'product');
+			$esproduct = new Esapi(ES_HOST, ES_PORT, 'ecommerce', 'product');
 			$objprod = new product(
 									$id,
 									$id_category,

@@ -1,33 +1,5 @@
 <?php
 
-/*
-define ('DEBUG', false);
-error_reporting(0);
-error_reporting(E_ALL);
-*/
-
-#define('DB_HOST', 'localhost');
-#define('DB_HOST', 'elasticsearchphpmysql_mysql_1');
-if(!defined('DB_HOST')) define('DB_HOST', getenv( "DB_HOST" )); # docker-compose.yml
-
-#define('DB_USER', 'root');
-if(!defined('DB_USER')) define('DB_USER', getenv( "DB_USER" )); # docker-compose.yml
-
-#define('DB_PASSWORD', 'girnar');
-#define('DB_PASSWORD', 'p@ssw0rd');
-if(!defined('DB_PASSWORD')) define('DB_PASSWORD', getenv( "DB_PASSWORD" )); # docker-compose.yml
-
-#define('DB_DATABASE', 'ecommerce');
-if(!defined('DB_DATABASE')) define('DB_DATABASE', getenv( "DB_DATABASE" )); # docker-compose.yml
-
-/*
-define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
-define('ES_PORT', 9200);
-
-require_once('lib.php');
-*/
-
-#$escategory = new esapi("ecommerce", "category");
 
 
 function mysql_dump_dbparams() {
@@ -150,7 +122,7 @@ function mysql_es_categoryRecursiveDelete($id) {
     }
     mysqli_query($con, "DELETE FROM category WHERE id='$id'");
 	
-	$escategory = new Esapi("ecommerce", "category");
+	$escategory = new Esapi(ES_HOST, ES_PORT, "ecommerce", "category");
 	#$objcat = new category($id, null, null);
 	echo "updating ES...";
 	#if( !esCRUDcategory("DELETE", $id, null, null, $result) ) {

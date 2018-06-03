@@ -1,26 +1,5 @@
 <?php
 
-/*
-define ('DEBUG', false);
-error_reporting(0);
-error_reporting(E_ALL);
-*/
-
-#define('DB_HOST', 'localhost');
-#define('DB_HOST', 'elasticsearchphpmysql_mysql_1');
-if(!defined('DB_HOST')) define('DB_HOST', getenv( "DB_HOST" )); # docker-compose.yml
-
-#define('DB_USER', 'root');
-if(!defined('DB_USER')) define('DB_USER', getenv( "DB_USER" )); # docker-compose.yml
-
-#define('DB_PASSWORD', 'girnar');
-#define('DB_PASSWORD', 'p@ssw0rd');
-if(!defined('DB_PASSWORD')) define('DB_PASSWORD', getenv( "DB_PASSWORD" )); # docker-compose.yml
-
-#define('DB_DATABASE', 'ecommerce');
-if(!defined('DB_DATABASE')) define('DB_DATABASE', getenv( "DB_DATABASE" )); # docker-compose.yml
-
-
 class Mysqliapi 
 {
 	private $_HOST;
@@ -156,7 +135,7 @@ class Mysqliapi
 			
 			#IoC?
 			echo "updating ES...";
-			$escategory = new Esapi("ecommerce", "category");
+			$escategory = new Esapi(ES_HOST, ES_PORT, "ecommerce", "category");
 			if(!$escategory->delete($id)) {
 				echo "error deleting category id:$id from ES\n";
 			} else {
