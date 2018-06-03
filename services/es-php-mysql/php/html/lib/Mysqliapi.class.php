@@ -8,17 +8,17 @@ error_reporting(E_ALL);
 
 #define('DB_HOST', 'localhost');
 #define('DB_HOST', 'elasticsearchphpmysql_mysql_1');
-define('DB_HOST', getenv( "DB_HOST" )); # docker-compose.yml
+if(!defined('DB_HOST')) define('DB_HOST', getenv( "DB_HOST" )); # docker-compose.yml
 
 #define('DB_USER', 'root');
-define('DB_USER', getenv( "DB_USER" )); # docker-compose.yml
+if(!defined('DB_USER')) define('DB_USER', getenv( "DB_USER" )); # docker-compose.yml
 
 #define('DB_PASSWORD', 'girnar');
 #define('DB_PASSWORD', 'p@ssw0rd');
-define('DB_PASSWORD', getenv( "DB_PASSWORD" )); # docker-compose.yml
+if(!defined('DB_PASSWORD')) define('DB_PASSWORD', getenv( "DB_PASSWORD" )); # docker-compose.yml
 
 #define('DB_DATABASE', 'ecommerce');
-define('DB_DATABASE', getenv( "DB_DATABASE" )); # docker-compose.yml
+if(!defined('DB_DATABASE')) define('DB_DATABASE', getenv( "DB_DATABASE" )); # docker-compose.yml
 
 
 class Mysqliapi 

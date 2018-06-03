@@ -1,7 +1,7 @@
 <?php
 
 require_once( "../lib/lib.php");
-require_once( "../lib/mysqliapi.php");
+require_once( "../lib/mysqliapi.class.php");
 
 function yesorno(bool $yesorno) {
 	return $yesorno;
@@ -26,7 +26,6 @@ if(!$result=yesorno(false)) {
 	#var_dump($result);
 	Logger::mirror(true)::variable(Logger::INFO, $result?"true":"false", "\$result");
 }
-
 
 #require_once
 $mysql = new Mysqliapi();
