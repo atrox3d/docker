@@ -41,6 +41,7 @@ class Html
 			}
 		} else {
 			$output = "<PRE>\n$string</PRE>\n";
+			self::$_pre=false;
 		}
 		
 		if($echo) echo $output;

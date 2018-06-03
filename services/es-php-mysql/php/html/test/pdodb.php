@@ -21,20 +21,6 @@ Html::pre(
 			."]"
 );
 
-//try {
-	$database = new pdodb();
-	echo "DB connection OK" . PHP_EOL;
-//}
-/*
-catch(Exception $e) {
-	Html::pre(true);
-	echo "Exception" . PHP_EOL;
-	echo "Message  : " . $e->getMessage() . PHP_EOL;
-	echo "\$database : ";
-	var_dump($database);
-	Html::pre(false);
-}
-*/
 ?>
 
 <html>
@@ -43,12 +29,42 @@ catch(Exception $e) {
 	<body>
 		<h1>pdodb test</h1>
 		<HR>
-				<?php
+		<div>test query: describe product</div>
+		<div>
+			<?php
+				try {
+					$database = new pdodb();
+					$database->query("describe product");
 					Html::pre(true);
-					echo "\$database : ";
-					var_dump($database);
+					if($resultset=$database->resultset()) {
+						foreach( $resultset as $row) {
+							$oRow = (object) $row;
+							echo "{$oRow->Field}, ";
+						}
+					Html::pre(false);
+					}
+				}
+				catch(Exception $e) {
+					$database->pdoexception($e);
+				}
+			?>
+		</div>
+		<footer style="background:#DCDCDC; font-size: 90%">
+		<HR>
+				<?php 
+					Html::pre(true);
+					if($database->errors()) {
+						echo "db error: " . $database->geterror() . PHP_EOL . PHP_EOL;
+						echo "\$database : ";
+						var_dump($database);
+					} else {
+						echo "DB connection OK" . PHP_EOL;
+					}
 					Html::pre(false);
 				?>
-		<HR>
+		</footer>
 	</body>
 </html>
+
+
+

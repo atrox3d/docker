@@ -27,6 +27,32 @@ class Pdodb
 	private $error;
 	private $stmt;
 	
+	public function pdoexception($e)
+	{
+		$this->error = $e->getMessage();
+		
+		Logger::error("PDO Exception : " 						. PHP_EOL	);
+		Logger::error("message       : " . $e->getMessage()		. PHP_EOL	);
+		Logger::error("File          : " . $e->getFile()		. PHP_EOL	);
+		Logger::error("Line          : " . $e->getLine()		. PHP_EOL	);
+		Logger::error("Code          : " . $e->getCode()		. PHP_EOL	);
+		Logger::error("Trace         : " 						. PHP_EOL	);
+		Logger::error($e->getTraceAsString()					. PHP_EOL	);
+			
+		Html::pre("Something went wrong with db" . PHP_EOL);
+	}
+	
+	public function errors() {
+		if($this->error) {
+			return true;
+		}
+		return false;
+	}
+	
+	public function geterror() {
+		return $this->error;
+	}
+	
 	public function __construct()
 	{
 		$this->dsn	= "mysql:host={$this->host}"
@@ -46,25 +72,15 @@ class Pdodb
 								);
 		}
 		catch(PDOException $e) {
-			$this->error = $e->getMessage();
-			
-			Logger::error("PDO Exception : " 						. PHP_EOL	);
-			Logger::error("message       : " . $e->getMessage()		. PHP_EOL	);
-			Logger::error("File          : " . $e->getFile()		. PHP_EOL	);
-			Logger::error("Line          : " . $e->getLine()		. PHP_EOL	);
-			Logger::error("Code          : " . $e->getCode()		. PHP_EOL	);
-			Logger::error("Trace         : " 						. PHP_EOL	);
-			Logger::error($e->getTraceAsString()					. PHP_EOL	);
-				
-			Html::pre("Error connecting to db" . PHP_EOL);
-			
-			//throw $e;
+			$this->pdoexception($e);
+			exit();
 		}
 	}
 	
 	public function query($query)
 	{
 		$this->stmt = $this->dbh->prepare($query);
+		return $this;
 	}
 	
 	public function bind($param, $value, $type=null)
@@ -89,6 +105,7 @@ class Pdodb
 		}
 		
 		$this->stmt->bindValue($param, $value, $type);
+		return $this;
 	}
 	
 	public function execute() 
@@ -100,6 +117,7 @@ class Pdodb
 	{
 		$this->execute();
 		return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+		return null;
 	}
 	
 	public function single()
@@ -116,17 +134,28 @@ class Pdodb
 	public function lastInsertId()
 	{  
 		return $this->dbh->lastInsertId();  
-	}  	
+	}
+
+	public function beginTransaction()
+	{
+		return $this->dbh->beginTransaction();  
+	}
+
+	public function endTransaction()
+	{
+		return $this->dbh->commit();  
+	}
+	
+	public function cancelTransaction()
+	{  
+		return $this->dbh->rollBack();  
+	} 	
+	
+	public function debugDumpParams()
+	{
+		return $this->stmt->debugDumpParams();  
+	}
 }
-
-
-
-
-
-
-
-
-
 
 
 
