@@ -9,8 +9,23 @@ if(isset($_GET['action']) && $_GET['action'] == 'del'){
 	header('location:product-list.php');
 }
 
-$query = "SELECT * FROM product";
-$results =  mysql_getResult($query);
+try {
+	$pdodb = new Pdodb(
+						DB_HOST,
+						DB_USER,
+						DB_PASSWORD,
+						DB_DATABASE
+						);
+
+	$query = "SELECT * FROM product";
+	$pdodb->query($query);
+	$results =  $pdodb->resultset();
+}
+catch(Exception $e) {
+	$pdodb->pdoexcpetion($e);
+	exit();
+}
+
 //echo'<pre>',print_r($results), '</pre>';
 ?>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">

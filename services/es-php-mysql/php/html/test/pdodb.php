@@ -1,5 +1,5 @@
 <?php
-require_once("../lib/lib.php");
+require_once("../lib/settings.php");
 require_once("../lib/pdodb.class.php");
 
 /*

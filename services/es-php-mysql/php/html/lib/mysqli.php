@@ -67,7 +67,7 @@ function mysql_getResult($query) {
     $new_array = array();
     while ($row = mysqli_fetch_array($query)) {
 		#
-		debug::on()::variable($row, "mysql_getResult::mysqli_fetch_array::\$row")::off();
+		#debug::on()::variable($row, "mysql_getResult::mysqli_fetch_array::\$row")::off();
 		#
         $new_array[] = $row;
     }

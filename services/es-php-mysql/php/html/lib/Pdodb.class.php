@@ -25,7 +25,7 @@ class Pdodb
 		Logger::error("Trace         : " 						. PHP_EOL	);
 		Logger::error($e->getTraceAsString()					. PHP_EOL	);
 			
-		Html::pre("Something went wrong with db" . PHP_EOL);
+		Html::pre("Sorry, Something went wrong with db. please check the logs" . PHP_EOL);
 	}
 	
 	public function errors() {
