@@ -72,6 +72,7 @@ if (isset($_POST['add'])) {
 		}
 		catch(Exception $e) {
 			$pdodb->pdoexception($e);
+			exit();
 		}
 		//header('location:category-list.php');
 		#

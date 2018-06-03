@@ -18,9 +18,17 @@ if (isset($_GET['action']) && $_GET['action'] == 'del') {
 
 $parent_id = isset($_REQUEST['parent_id']) ? (int)$_REQUEST['parent_id'] : 0;
 
-$query = "SELECT * FROM category WHERE id_parent = '".$parent_id."' ";
-$results = mysql_getResult($query);
-//echo'<pre>',print_r($results), '</pre>';
+try {
+	$pdodb = new Pdodb( DB_HOST , DB_USER, DB_PASSWORD, DB_DATABASE);
+	$query = "SELECT * FROM category WHERE id_parent = :parent_id";
+	$pdodb->query($query);
+	$pdodb->bind(":parent_id",		$parent_id);
+	$results = $pdodb->resultset();
+}
+catch(Exception $e) {
+	$pdodb->pdoexception($e);
+	exit();
+}
 
 
 ?>
