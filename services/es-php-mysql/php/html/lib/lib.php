@@ -22,14 +22,22 @@ require_once(__DIR__.'/mysqli.php');
 
 class Html
 {
+	private static $_pre = false;
+	
 	public static function pre($string, $echo=true) 
 	{
 		$output = "";
-		
-		if($string===true) {
-			$output = "<PRE>\n";
-		} elseif($string===false) {
-			$output = "</PRE>\n";
+
+		if($string===true ) {
+			if(!self::$_pre) {
+				self::$_pre=true;
+				$output = "<PRE>\n";
+			}
+		} elseif($string===false ) {
+			if(self::$_pre) {
+				self::$_pre=false;
+				$output = "</PRE>\n";
+			}
 		} else {
 			$output = "<PRE>\n$string</PRE>\n";
 		}

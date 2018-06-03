@@ -37,15 +37,15 @@ class Logger {
 		#
 		#
 		#
-		echo "<pre>\n";
+		#echo "<pre>\n";
 		if(is_null($_mirror)) {
-			echo "Logger::mirror \$_mirror :";	var_dump($_mirror); echo "\n";
+			#echo "Logger::mirror \$_mirror :";	var_dump($_mirror); echo "\n";
 			self::$_mirror = !(self::$_mirror);
-			echo "Logger::mirror self::\$_mirror SET TO :";	var_dump(self::$_mirror); echo "\n";
+			#echo "Logger::mirror self::\$_mirror SET TO :";	var_dump(self::$_mirror); echo "\n";
 		} else {
 				self::$_mirror = $_mirror;
 		}
-		echo "</pre>\n";
+		#echo "</pre>\n";
 		#if(self::$_mirror) echo "mirror is ON\n"; else echo "mirror is OFF\n";
 		#
 		#
@@ -56,6 +56,7 @@ class Logger {
 	private static function _square($string) {
 		return "[$string]";
 	}
+	
 	private static function log( $loglevel, $message ) {
 		self::_initialize();
 		$_line  = self::_square(self::_timestamp());
@@ -68,11 +69,10 @@ class Logger {
 		#	echo "Logger::log: mirror is OFF\n";
 		
 		if(self::$_mirror) {
-			echo "<pre>\n";
-			echo $_line;
-			echo "</pre>\n";
+			#echo "<pre>\n";
+			echo "$_line\n";
+			#echo "</pre>\n";
 		}
-
 		fwrite(self::$_output, "$_line\n");
 	}
 	
@@ -94,6 +94,26 @@ class Logger {
 	
 	public static function fatal($message) {
 		self::log(self::FATAL, $message);
+	}
+
+	public static function variable($loglevel, $variable, $message=null, $echo=false) {
+
+			$_line = "";
+
+			if($message) {
+				$_line .= "[$message]: ";
+			}
+			if( $echo ) {
+				$_line .= $variable;
+			} else {
+				$_line .= print_r($variable, true);
+			}
+			self::log($loglevel, "$_line");
+		#}
+		#
+		# static::fluent()::interface()
+		#
+		return __CLASS__;
 	}
 	
 }
