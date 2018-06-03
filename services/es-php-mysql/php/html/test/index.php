@@ -31,6 +31,8 @@ Html::pre(
 			<li><a href="debug.php" >debug</a></li>
 			<li><a href="debug_backtrace.php" >debug_backtrace</a></li>
 			<li><a href="functions.php" >functions</a></li>
+			<li><a href="controller" >controller</a></li>
+			<li><a href="pdodb.php" >pdodb</a></li>
 		</ul>
 	</body>
 </html>
