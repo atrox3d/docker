@@ -18,6 +18,7 @@ require_once(__DIR__.'/Debug.class.php');
 require_once(__DIR__.'/Logger.class.php');
 require_once(__DIR__.'/Esapi.class.php');
 require_once(__DIR__.'/mysqliapi.class.php');
+require_once(__DIR__.'/pdodb.class.php');
 require_once(__DIR__.'/mysqli.php');
 
 

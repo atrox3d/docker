@@ -2,13 +2,20 @@
 include('../lib/Settings.php');
 
 #esapi ok
-
 $indexing = isset($_GET['indexing']) ? $_GET['indexing'] : '';
 switch ($indexing) {
     case 'category':
 		#echo "Working... ";
-        $queryCat = "SELECT * FROM category";
-        $categories = mysql_getResult($queryCat);
+		try {
+			$pdodb = new Pdodb( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+			$queryCat = "SELECT * FROM category";
+			#$categories = mysql_getResult($queryCat);
+			$categories = $pdodb->query($queryCat)->resultset();
+		}
+		catch(Exception $e) {
+			$pdodb->pdoexception($e);
+		}
+		
 		$result=array();
 		$errors=array();
 		$escategory = new Esapi(ES_HOST, ES_PORT, "ecommerce", "category");
@@ -58,9 +65,22 @@ switch ($indexing) {
 		
         #$queryProduct = "SELECT p.*, c.name AS category_name  FROM product AS p
         #INNER JOIN category AS c ON c.id = p.id_category ";
-        $queryProduct = "SELECT p.*, c.name AS category_name, pc.name AS parent_category_name  FROM product AS p INNER JOIN category AS c ON c.id = p.id_category LEFT JOIN category AS pc on c.id_parent = pc.id";
-        $product = mysql_getResult($queryProduct);
+        
+		try {
+			$pdodb = new Pdodb( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+			$queryProduct = "SELECT p.*, c.name AS category_name, pc.name AS parent_category_name  FROM product AS p INNER JOIN category AS c ON c.id = p.id_category LEFT JOIN category AS pc on c.id_parent = pc.id";
+			#$categories = mysql_getResult($queryCat);
+			$product = $pdodb->query($queryProduct)->resultset();
+		}
+		catch(Exception $e) {
+			$pdodb->pdoexception($e);
+		}
+		
+		#$product = mysql_getResult($queryProduct);
         #echo'<pre>', print_r($product), '</pre>';die;
+		
+		
+		
 		$errors = array();
         foreach ($product as $prod) {
             #$params = [
