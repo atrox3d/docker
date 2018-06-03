@@ -26,8 +26,8 @@ catch(Exception $e) {
 	exit();
 }
 
-//echo'<pre>',print_r($results), '</pre>';
 ?>
+
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
 	<tr>
 		<td width="15%" valign="top">
