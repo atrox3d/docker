@@ -34,5 +34,10 @@ Html::pre(
 			<li><a href="controller" >controller</a></li>
 			<li><a href="pdodb.php" >pdodb</a></li>
 		</ul>
+		<hr>
+		<?php
+
+		phpinfo(); 
+		?>
 	</body>
 </html>
