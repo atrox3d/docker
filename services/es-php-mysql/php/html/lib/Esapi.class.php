@@ -46,7 +46,7 @@ class product implements idocument {
 			$date_upd;
 	
 	function __construct(
-							$id, 
+							$id,
 							$id_category, 
 							$category_name, 
 							$parent_category_name, 

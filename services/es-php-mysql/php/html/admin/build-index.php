@@ -1,5 +1,5 @@
 <?php
-include('../lib/Settings.php');
+include('../lib/lib.php');
 
 #esapi ok
 $indexing = isset($_GET['indexing']) ? $_GET['indexing'] : '';

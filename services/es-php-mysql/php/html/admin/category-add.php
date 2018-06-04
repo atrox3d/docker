@@ -1,5 +1,5 @@
 <?php
-include('../lib/Settings.php');
+include('../lib/lib.php');
 
 
 

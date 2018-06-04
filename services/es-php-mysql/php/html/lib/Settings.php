@@ -32,7 +32,7 @@ if(!defined('DB_DATABASE')) define('DB_DATABASE', getenv( "DB_DATABASE" )); # do
 if(!defined('ES_HOST')) define('ES_HOST', getenv( "ES_HOST" )); # docker-compose.yml
 if(!defined('ES_PORT')) define('ES_PORT', 9200);
 
-require_once('lib.php');
+#require_once('lib.php');
 
 
 /*

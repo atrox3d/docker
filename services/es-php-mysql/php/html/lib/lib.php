@@ -14,12 +14,19 @@ if(!defined('STDIN'))  define('STDIN',  fopen('php://stdin',  'r'));
 if(!defined('STDOUT')) define('STDOUT', fopen('php://stdout', 'w'));
 if(!defined('STDERR')) define('STDERR', fopen('php://stderr', 'w'));
 
-require_once(__DIR__ . '/Debug.class.php');
-require_once(__DIR__ . '/Logger.class.php');
-require_once(__DIR__ . '/Esapi.class.php');
-require_once(__DIR__ . '/mysqliapi.class.php');
-require_once(__DIR__ . '/pdodb.class.php');
-require_once(__DIR__ . '/mysqli.php');
+require_once __DIR__ . '/Settings.php';
+
+/*             
+require_once __DIR__ . '/mysqli.php';
+require_once __DIR__ . '/mysqliapi.class.php';
+*/
+
+require_once __DIR__ . '/Logger.class.php';
+require_once __DIR__ . '/Debug.class.php';
+require_once __DIR__ . '/Esapi.class.php';
+require_once __DIR__ . '/pdodb.class.php';
+
+
 
 function categoryListSelect(Pdodb $db, $id_parent = 0, $space = '') {
 
