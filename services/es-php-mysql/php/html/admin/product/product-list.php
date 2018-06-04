@@ -1,7 +1,11 @@
 <?php
-include('../../lib/lib.php');
+
+include('../lib/lib.php');
+
+echo "<PRE>" . __FILE__ . "</PRE>";
 
 if(isset($_GET['action']) && $_GET['action'] == 'del'){
+	
 	$sql = "DELETE FROM product WHERE id = '".$_GET['id']."' ";
 	
 	$con = mysql_getcon();

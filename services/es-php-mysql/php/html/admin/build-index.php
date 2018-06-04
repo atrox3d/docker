@@ -1,6 +1,8 @@
 <?php
 include('../lib/lib.php');
 
+echo "<PRE>" . __FILE__ . "</PRE>";
+
 #esapi ok
 $indexing = isset($_GET['indexing']) ? $_GET['indexing'] : '';
 switch ($indexing) {

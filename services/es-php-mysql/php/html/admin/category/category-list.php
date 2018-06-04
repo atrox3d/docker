@@ -1,6 +1,8 @@
 <?php
 include('../lib/lib.php');
 
+echo "<PRE>" . __FILE__ . "</PRE>";
+
 if (isset($_GET['action']) && $_GET['action'] == 'del') {
     
     //echo $sql = "DELETE FROM category WHERE id = '" . $_GET['id'] . "' ";
@@ -30,17 +32,22 @@ catch(Exception $e) {
 	exit();
 }
 
+	$qs="type={$oget->type}&verb={$oget->verb}&";
+	echo "<PRE>str  = $str</PRE>";
+	echo "<PRE>type = {$oget->type}</PRE>";
+	echo "<PRE>verb = {$oget->verb}</PRE>";
+	echo "<PRE>qs   = $qs</PRE>";
 
 ?>
+<!--
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
     <tr>
-		<!--
         <td width="15%" valign="top">
-            <?php include('../left-menu.php'); ?>
+            <?php #include('../left-menu.php'); ?>
         </td>
-		-->
         <td width="85%" align="right">
             <a href="category-add.php">Add New</a>
+		-->
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
                 <tr>
                     <th>ID</th>
@@ -51,16 +58,23 @@ catch(Exception $e) {
                     foreach ($results as $res) { ?>
                     <tr>
                         <td align="center"><?php echo($res['id']); ?></td>
-                        <td align="center"><a href="?parent_id=<?php echo($res['id']); ?>"><?php echo($res['name']); ?></a></td>
-                        <td align="center"><a href="?action=del&id=<?php echo($res['id']); ?>">Delete</a></td>
+                        <td align="center"><a href="?<?=$qs?>parent_id=<?php echo($res['id']); ?>"><?php echo($res['name']); ?></a></td>
+                        <td align="center"><a href="?>?<?=$qs?>action=del&id=<?php echo($res['id']); ?>">Delete</a></td>
                     </tr>
                 <?php }
                 }else{ ?>
                     <tr>
                         <td align="left" colspan="3">No category found.</td>
                     </tr>
-                <?php } ?>	
+                <?php } ?>
+				<tr>
+				<td align="left">
+				<?php echo "<PRE>" . print_r($_SERVER, true). "</PRE>"; ?>
+				</td>
+				</tr>
             </table>
+		<!--
         </td>
     </tr>
 </table>
+-->
