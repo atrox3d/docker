@@ -24,7 +24,7 @@ require_once __DIR__ . '/db/mysqli.php';
 require_once __DIR__ . '/db/mysqliapi.class.php';
 */
 require_once __DIR__ . '/db/Esapi.class.php';
-require_once __DIR__ . '/db/pdodb.class.php';
+require_once __DIR__ . '/db/Pdodb.class.php';
 
 
 
