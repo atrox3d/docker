@@ -16,15 +16,15 @@ if(!defined('STDERR')) define('STDERR', fopen('php://stderr', 'w'));
 
 require_once __DIR__ . '/Settings.php';
 
-/*             
-require_once __DIR__ . '/mysqli.php';
-require_once __DIR__ . '/mysqliapi.class.php';
-*/
 
-require_once __DIR__ . '/Logger.class.php';
-require_once __DIR__ . '/Debug.class.php';
-require_once __DIR__ . '/Esapi.class.php';
-require_once __DIR__ . '/pdodb.class.php';
+require_once __DIR__ . '/util/Logger.class.php';
+require_once __DIR__ . '/util/Debug.class.php';
+/*             
+require_once __DIR__ . '/db/mysqli.php';
+require_once __DIR__ . '/db/mysqliapi.class.php';
+*/
+require_once __DIR__ . '/db/Esapi.class.php';
+require_once __DIR__ . '/db/pdodb.class.php';
 
 
 
