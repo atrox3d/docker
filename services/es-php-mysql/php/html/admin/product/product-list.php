@@ -30,9 +30,11 @@ catch(Exception $e) {
 
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
 	<tr>
+		<!--
 		<td width="15%" valign="top">
 			<?php include('../left-menu.php'); ?>
 		</td>
+		-->
 		<td width="85%" align="right">
 			<a href="product-addedit.php">Add New</a>
 			<table width="100%" border="0" cellspacing="5" cellpadding="0">

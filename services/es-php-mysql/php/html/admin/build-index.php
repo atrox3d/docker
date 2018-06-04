@@ -163,17 +163,21 @@ switch ($indexing) {
 		
 	break;
 }
+#Html::pre(print_r($_SERVER, true));
+$queryString=$_SERVER['QUERY_STRING'];
 ?>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
     <tr>
+		<!--
         <td width="15%">
-            <?php include('left-menu.php'); ?>
+            <?php #include('left-menu.php'); ?>
         </td>
+		-->
         <td width="85%">
             <ul >
-                <li><a href="?indexing=category">Build Category Index</a></li>
-                <li><a href="?indexing=product">Build product Index</a></li>
-                <li><a href="?indexing=delete_index">Delete ecommerce Index</a></li>
+                <li><a href="?<?=$queryString?>&indexing=category">Build Category Index</a></li>
+                <li><a href="?<?=$queryString?>&indexing=product">Build product Index</a></li>
+                <li><a href="?<?=$queryString?>&indexing=delete_index">Delete ecommerce Index</a></li>
             </ul>
         </td>
     </tr>
