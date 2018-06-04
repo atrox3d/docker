@@ -1,5 +1,5 @@
 <?php
-include('../lib/lib.php');
+include('../../lib/lib.php');
 
 if(isset($_GET['action']) && $_GET['action'] == 'del'){
 	$sql = "DELETE FROM product WHERE id = '".$_GET['id']."' ";
@@ -31,7 +31,7 @@ catch(Exception $e) {
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
 	<tr>
 		<td width="15%" valign="top">
-			<?php include('left-menu.php'); ?>
+			<?php include('../left-menu.php'); ?>
 		</td>
 		<td width="85%" align="right">
 			<a href="product-addedit.php">Add New</a>
@@ -50,9 +50,9 @@ catch(Exception $e) {
 						<td align="center">
 							<img src=
 								<?php
-									echo file_exists("../uploads/product/{$res['image']}") ? 
-									"\"../uploads/product/{$res['image']}\"" : 
-									"\"../uploads/product/noimage.png\"";
+									echo file_exists("/uploads/product/{$res['image']}") ? 
+									"\"/uploads/product/{$res['image']}\"" : 
+									"\"/uploads/product/noimage.png\"";
 								?>
 								width="80" 
 								height="80"

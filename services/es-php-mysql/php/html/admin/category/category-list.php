@@ -1,5 +1,5 @@
 <?php
-include('../lib/lib.php');
+include('../../lib/lib.php');
 
 if (isset($_GET['action']) && $_GET['action'] == 'del') {
     
@@ -35,7 +35,7 @@ catch(Exception $e) {
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
     <tr>
         <td width="15%" valign="top">
-            <?php include('left-menu.php'); ?>
+            <?php include('../left-menu.php'); ?>
         </td>
         <td width="85%" align="right">
             <a href="category-add.php">Add New</a>

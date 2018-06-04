@@ -1,5 +1,5 @@
 <?php
-include('../lib/lib.php');
+include('../../lib/lib.php');
 
 
 if(isset($_POST['add'])){
