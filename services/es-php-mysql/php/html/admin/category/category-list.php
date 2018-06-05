@@ -1,5 +1,5 @@
 <?php
-include('../lib/lib.php');
+#include('../lib/lib.php');
 
 echo "<PRE>" . __FILE__ . "</PRE>";
 
@@ -32,12 +32,6 @@ catch(Exception $e) {
 	exit();
 }
 
-	$qs="type={$oget->type}&verb={$oget->verb}&";
-	echo "<PRE>str  = $str</PRE>";
-	echo "<PRE>type = {$oget->type}</PRE>";
-	echo "<PRE>verb = {$oget->verb}</PRE>";
-	echo "<PRE>qs   = $qs</PRE>";
-
 ?>
 <!--
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
@@ -68,9 +62,9 @@ catch(Exception $e) {
                     </tr>
                 <?php } ?>
 				<tr>
-				<td align="left">
-				<?php echo "<PRE>" . print_r($_SERVER, true). "</PRE>"; ?>
-				</td>
+					<td align="left">
+						<?php printqs(); ?>
+					</td>
 				</tr>
             </table>
 		<!--

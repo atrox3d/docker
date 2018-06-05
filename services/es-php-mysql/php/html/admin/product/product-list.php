@@ -1,6 +1,6 @@
 <?php
 
-include('../lib/lib.php');
+#require_once('../lib/lib.php');
 
 echo "<PRE>" . __FILE__ . "</PRE>";
 
@@ -67,7 +67,7 @@ catch(Exception $e) {
 						<td align="center"><?php echo($res['name']); ?></td>
 						<td align="center"><?php echo($res['price']); ?></td>
 						<td align="center"><?php echo($res['quantity']); ?></td>
-						<td align="center"><a href="?action=del&id=<?php echo($res['id']); ?>">Delete</a></td>
+						<td align="center"><a href="?<?=$qs?>action=del&id=<?php echo($res['id']); ?>">Delete</a></td>
 					</tr>
 				<?php } ?>
 			</table>

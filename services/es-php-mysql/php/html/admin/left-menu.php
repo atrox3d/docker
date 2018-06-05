@@ -7,7 +7,7 @@
 	</tr>
 	<tr>
 		<!-- <td><a href="/admin/product/product-list.php">Product List</a></td> -->
-		<td><a href="?display=product/product-list.php">Product List</a></td>
+		<td><a href="?type=product&verb=list">Product List</a></td>
 	</tr>
 	<tr>
 		<td><a href="?display=build-index.php">Build Index</a></td>
